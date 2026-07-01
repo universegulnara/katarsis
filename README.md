@@ -70,27 +70,40 @@ function doPost(e) {
   let text = '';
   switch(data.type) {
     case 'feedback':
-      text = `✉️ *Новый отзыв!*\n👤 Имя: ${data.name}\n📞 Телефон: ${data.phone}\n⭐ Рейтинг: ${data.rating || 'не указан'}\n💬 ${data.message}`;
+      text = `✉️ *Новый отзыв!*
+👤 Имя: ${data.name}
+📞 Телефон: ${data.phone}
+⭐ Рейтинг: ${data.rating || 'не указан'}
+💬 ${data.message}`;
       break;
     case 'booking':
-      text = `🍽 *Бронирование банкета*\n👤 Имя: ${data.name}\n📞 Телефон: ${data.phone}\n📅 Дата: ${data.date}\n👥 Гостей: ${data.guests}\n📝 Пожелания: ${data.notes || 'нет'}`;
+      text = `🍽 *Бронирование банкета*
+👤 Имя: ${data.name}
+📞 Телефон: ${data.phone}
+📅 Дата: ${data.date}
+👥 Гостей: ${data.guests}
+📝 Пожелания: ${data.notes || 'нет'}`;
       break;
     case 'franchise':
-      text = `📊 *Заявка на франшизу*\n👤 Имя: ${data.name}\n📞 Телефон: ${data.phone}\n📧 Email: ${data.email}\n🏙 Город: ${data.city}`;
+      text = `📊 *Заявка на франшизу*
+👤 Имя: ${data.name}
+📞 Телефон: ${data.phone}
+📧 Email: ${data.email}
+🏙 Город: ${data.city}`;
       break;
   }
 
-  const payload = {
+  UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
     method: 'post',
     payload: {
       chat_id: chatId,
       text: text,
       parse_mode: 'Markdown'
     }
-  };
+  });
 
-  UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/sendMessage', payload);
-  return ContentService.createTextOutput('OK');
+  return ContentService.createTextOutput(JSON.stringify({ status: 'ok' }))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 ```
 
@@ -107,6 +120,14 @@ function doPost(e) {
 2. Найдите строку: `const GOOGLE_SCRIPT_URL = '...'`
 3. Замените на скопированный URL
 4. Сохраните и заново загрузите файлы на GitHub
+
+### 🐛 Если не работает — проверка логов
+
+1. Откройте [script.google.com](https://script.google.com) → ваш проект
+2. Слева меню **"Выполнения"** (Executions)
+3. Там видно: приходил ли запрос и какая ошибка
+4. Если ошибка: проверьте токен и chat_id
+5. Если запросов нет: откройте F12 на сайте → вкладка Console → отправьте форму — будут видны ошибки JS
 
 ---
 
