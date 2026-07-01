@@ -1,4 +1,4 @@
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz6eDDMiDwo7mT1AAPs6SXNaaDkZEGCL55EV4HmczZqMr7sSOKU3w4XYPNn4ooiJcRK/exec';
 
 function getRatingValue() {
   const stars = document.querySelectorAll('.rating__star');
