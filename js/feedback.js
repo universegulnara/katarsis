@@ -32,10 +32,13 @@ async function submitFeedback(formId, successId, data) {
   try {
     const response = await fetch(GOOGLE_SCRIPT_URL, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(data)
     });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
 
     form.style.display = 'none';
     success.classList.add('active');
@@ -53,10 +56,10 @@ async function submitFeedback(formId, successId, data) {
     }, 3000);
 
   } catch (error) {
-    btn.innerHTML = btnText;
+    btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Ошибка. Попробуйте ещё раз';
     btn.disabled = false;
-    alert('Произошла ошибка при отправке. Пожалуйста, попробуйте ещё раз.');
     console.error('Feedback error:', error);
+    setTimeout(() => { btn.innerHTML = btnText; }, 3000);
   }
 }
 
