@@ -1,43 +1,52 @@
 function doPost(e) {
-  const data = JSON.parse(e.postData.contents);
-  const token = 'ВАШ_ТОКЕН_БОТА';
-  const chatId = 'ВАШ_CHAT_ID';
+  try {
+    const data = JSON.parse(e.postData.contents);
 
-  let text = '';
-  switch(data.type) {
-    case 'feedback':
-      text = `✉️ *Новый отзыв!*
-👤 Имя: ${data.name}
-📞 Телефон: ${data.phone}
-⭐ Рейтинг: ${data.rating || 'не указан'}
-💬 ${data.message}`;
-      break;
-    case 'booking':
-      text = `🍽 *Бронирование банкета*
-👤 Имя: ${data.name}
-📞 Телефон: ${data.phone}
-📅 Дата: ${data.date}
-👥 Гостей: ${data.guests}
-📝 Пожелания: ${data.notes || 'нет'}`;
-      break;
-    case 'franchise':
-      text = `📊 *Заявка на франшизу*
-👤 Имя: ${data.name}
-📞 Телефон: ${data.phone}
-📧 Email: ${data.email}
-🏙 Город: ${data.city}`;
-      break;
-  }
+    // Логирование входящего запроса
+    console.log('📥 Получен запрос:', JSON.stringify(data));
 
-  UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
-    method: 'post',
-    payload: {
-      chat_id: chatId,
-      text: text,
-      parse_mode: 'Markdown'
+    const token = '8961389382:AAEN-FsVb7lsvceqBn6fMkzdIgXnN5n4x5M';
+    const chatId = '191252645';
+
+    let text = '';
+    switch(data.type) {
+      case 'feedback':
+        text = '✉️ *Новый отзыв!*\n👤 Имя: ' + data.name + '\n📞 Телефон: ' + data.phone + '\n⭐ Рейтинг: ' + (data.rating || 'не указан') + '\n💬 ' + data.message;
+        break;
+      case 'booking':
+        text = '🍽 *Бронирование банкета*\n👤 Имя: ' + data.name + '\n📞 Телефон: ' + data.phone + '\n📅 Дата: ' + data.date + '\n👥 Гостей: ' + data.guests + '\n📝 Пожелания: ' + (data.notes || 'нет');
+        break;
+      case 'franchise':
+        text = '📊 *Заявка на франшизу*\n👤 Имя: ' + data.name + '\n📞 Телефон: ' + data.phone + '\n📧 Email: ' + data.email + '\n🏙 Город: ' + data.city;
+        break;
+      default:
+        text = '❓ Неизвестный тип: ' + data.type;
     }
-  });
 
-  return ContentService.createTextOutput(JSON.stringify({ status: 'ok' }))
-    .setMimeType(ContentService.MimeType.JSON);
+    console.log('📤 Отправка в Telegram...');
+    console.log('Chat ID:', chatId);
+
+    const result = UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
+      method: 'post',
+      payload: {
+        chat_id: chatId,
+        text: text,
+        parse_mode: 'Markdown'
+      }
+    });
+
+    console.log('✅ Telegram ответ:', result.getContentText());
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'ok' }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    console.error('❌ Ошибка:', error.message);
+    console.error('Стек:', error.stack);
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'error', message: error.message }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
 }

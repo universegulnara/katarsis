@@ -63,51 +63,46 @@ git push origin main
 
 ```javascript
 function doPost(e) {
-  const data = JSON.parse(e.postData.contents);
-  const token = 'ВАШ_ТОКЕН_БОТА';
-  const chatId = 'ВАШ_CHAT_ID';
+  try {
+    const data = JSON.parse(e.postData.contents);
+    console.log('📥 Получен запрос:', JSON.stringify(data)); // ← лог
 
-  let text = '';
-  switch(data.type) {
-    case 'feedback':
-      text = `✉️ *Новый отзыв!*
-👤 Имя: ${data.name}
-📞 Телефон: ${data.phone}
-⭐ Рейтинг: ${data.rating || 'не указан'}
-💬 ${data.message}`;
-      break;
-    case 'booking':
-      text = `🍽 *Бронирование банкета*
-👤 Имя: ${data.name}
-📞 Телефон: ${data.phone}
-📅 Дата: ${data.date}
-👥 Гостей: ${data.guests}
-📝 Пожелания: ${data.notes || 'нет'}`;
-      break;
-    case 'franchise':
-      text = `📊 *Заявка на франшизу*
-👤 Имя: ${data.name}
-📞 Телефон: ${data.phone}
-📧 Email: ${data.email}
-🏙 Город: ${data.city}`;
-      break;
-  }
+    const token = 'ВАШ_ТОКЕН_БОТА';
+    const chatId = 'ВАШ_CHAT_ID';     // ⚠️ ТОЛЬКО цифры, без "Id: "
 
-  UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
-    method: 'post',
-    payload: {
-      chat_id: chatId,
-      text: text,
-      parse_mode: 'Markdown'
+    let text = '';
+    switch(data.type) {
+      case 'feedback':
+        text = '✉️ *Новый отзыв!*\n👤 Имя: ' + data.name + '\n📞 Телефон: ' + data.phone + '\n⭐ Рейтинг: ' + (data.rating || 'не указан') + '\n💬 ' + data.message;
+        break;
+      case 'booking':
+        text = '🍽 *Бронирование банкета*\n👤 Имя: ' + data.name + '\n📞 Телефон: ' + data.phone + '\n📅 Дата: ' + data.date + '\n👥 Гостей: ' + data.guests + '\n📝 Пожелания: ' + (data.notes || 'нет');
+        break;
+      case 'franchise':
+        text = '📊 *Заявка на франшизу*\n👤 Имя: ' + data.name + '\n📞 Телефон: ' + data.phone + '\n📧 Email: ' + data.email + '\n🏙 Город: ' + data.city;
+        break;
     }
-  });
 
-  return ContentService.createTextOutput(JSON.stringify({ status: 'ok' }))
-    .setMimeType(ContentService.MimeType.JSON);
+    console.log('📤 Отправка в Telegram...');
+    const result = UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
+      method: 'post',
+      payload: { chat_id: chatId, text: text, parse_mode: 'Markdown' }
+    });
+    console.log('✅ Ответ:', result.getContentText());
+
+    return ContentService.createTextOutput(JSON.stringify({ status: 'ok' })).setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    console.error('❌ Ошибка:', error.message); // ← лог ошибки
+    return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: error.message })).setMimeType(ContentService.MimeType.JSON);
+  }
 }
 ```
 
-4. Замените `ВАШ_ТОКЕН_БОТА` и `ВАШ_CHAT_ID` на свои
+4. Замените `ВАШ_ТОКЕН_БОТА` и `ВАШ_CHAT_ID` на свои  
+   ⚠️ **ВАЖНО:** в `chatId` пишите **только цифры**, без «Id:»  
+   ✅ Правильно: `'191252645'`  
+   ❌ Неправильно: `'Id: 191252645'`
 5. Нажмите **Сохранить** → дайте имя проекту (например `KatarsisBot`)
 6. Нажмите **"Развернуть"** → **"Новое развертывание"** → **"Веб-приложение"**
 7. Выберите: **"Все, у кого есть ссылка"**
@@ -121,13 +116,12 @@ function doPost(e) {
 3. Замените на скопированный URL
 4. Сохраните и заново загрузите файлы на GitHub
 
-### 🐛 Если не работает — проверка логов
+### 🐛 Где смотреть логи
 
 1. Откройте [script.google.com](https://script.google.com) → ваш проект
-2. Слева меню **"Выполнения"** (Executions)
-3. Там видно: приходил ли запрос и какая ошибка
-4. Если ошибка: проверьте токен и chat_id
-5. Если запросов нет: откройте F12 на сайте → вкладка Console → отправьте форму — будут видны ошибки JS
+2. Слева меню **"Выполнения"** (Executions) — там все запросы и ошибки
+3. Нажмите на любой запуск — увидите **лог** (все console.log)
+4. Если проблема на сайте: **F12 → Console** — отправьте форму, будут ошибки JS
 
 ---
 
