@@ -125,22 +125,79 @@ function doPost(e) {
 
 ---
 
-## 🎨 Цветовая палитра
+## ⚙️ Админ-файл `config.js`
 
-| Название | Цвет | Код |
-|----------|------|-----|
-| Тёмный фон | ▪️ | `#0a0a1a` |
-| Ещё темнее | ▪️ | `#060612` |
-| Неон-фиолетовый | ▪️ | `#c990ff` |
-| Неон-синий | ▪️ | `#536dfe` |
-| Неон-розовый | ▪️ | `#ff6ec7` |
-| Текст | ▪️ | `#f0eeff` |
+Все настройки сайта в одном файле. Просто меняете значения — секции включаются/выключаются, шрифты и SEO меняются.
+
+### Секции (показать/скрыть)
+
+```js
+sections: {
+  events:      false,  // Баннеры «Скоро»
+  activities:  false,  // Активности
+  advantages:  true,   // Преимущества
+  feedback:    true,   // Кнопка отзыва
+  booking:     true,   // Кнопка брони
+  franchise:   true,   // Кнопка франшизы
+}
+```
+
+Поменяли `false` на `true` — секция появится на сайте.
+
+### Шрифты
+
+```js
+fonts: {
+  body: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+  heading: "'Unbounded', 'Inter', sans-serif",
+  googleUrl: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
+}
+```
+
+- `body` — шрифт для текста
+- `heading` — шрифт для заголовков (удлинённый)
+- `googleUrl` — ссылка для подключения шрифтов (если нужен другой — меняйте)
+
+Хотите другой шрифт? Пример:
+```js
+heading: "'Raleway', sans-serif",
+googleUrl: "https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap",
+```
+
+### SEO
+
+```js
+seo: {
+  title: '...',
+  description: '...',
+  keywords: '...',
+  ogImage: 'assets/hero-image.png',
+}
+```
+
+Меняете — и на сайте новые заголовки для поисковиков.
+
+### Контакты
+
+```js
+contacts: {
+  address: 'ул. Астрономическая, 9, Казань',
+  phone: '+7 (999) 123-45-67',
+  workingHours: 'Пн-Вс: 18:00 — 06:00',
+  telegram: 'https://t.me/...',
+  vk: 'https://vk.com/...',
+  whatsapp: 'https://wa.me/...',
+}
+```
+
+---
 
 ## 📁 Структура
 
 ```
 katarsis/
 ├── index.html        # Главная страница
+├── config.js         # ⚙️ АДМИНКА: секции, шрифты, SEO, контакты
 ├── css/
 │   └── style.css     # Все стили
 ├── js/
@@ -148,8 +205,15 @@ katarsis/
 │   ├── particles.js  # Звёзды на canvas
 │   └── feedback.js   # Отправка форм
 ├── assets/
-│   ├── logo.svg      # Логотип
-│   └── favicon.png   # Иконка
+│   ├── logo.png      # Логотип
+│   ├── favicon.png   # Иконка
+│   ├── hero-image.png
+│   ├── bg-hero.png
+│   ├── event1.png
+│   ├── event2.png
+│   ├── bot-pic.png   # Картинка для Telegram бота
+│   └── ...
+├── gas-code.txt      # Код для Google Apps Script
 └── README.md
 ```
 
@@ -157,12 +221,13 @@ katarsis/
 
 ## 💡 Фичи сайта
 
-- Age Verify 18+ (модальное окно при входе)
-- Частицы (звёзды) с реакцией на мышь
-- Дым-эффект (CSS анимация)
-- Glassmorphism (стеклянные карточки)
-- Неон-свечение заголовков и кнопок
-- Параллакс при скролле
-- Анимированные счётчики
-- Адаптация под мобильные устройства
-- Форма отзыва с рейтингом → Telegram
+- ⚙️ **Админка** `config.js` — включение/выключение разделов без кода
+- 🕵️ **Age Verify** 18+ — модальное окно при входе
+- ✨ **Частицы** — звёзды на canvas с реакцией на мышь
+- 🌫️ **Дым-эффект** — CSS-анимация тумана
+- 🪟 **Glassmorphism** — стеклянные карточки
+- 💡 **Неон** — свечение заголовков и кнопок
+- 📜 **Параллакс** — при скролле
+- 🔢 **Анимированные счётчики**
+- 📱 **Адаптация под мобильные**
+- ✉️ **Форма отзыва** с рейтингом → Telegram через Google Apps Script

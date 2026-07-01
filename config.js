@@ -19,6 +19,13 @@ const SITE_CONFIG = {
     franchise:   true,  // Кнопка «Открыть франшизу»
   },
 
+  // ===== Шрифты =====
+  fonts: {
+    body: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    heading: "'Unbounded', 'Inter', sans-serif",
+    googleUrl: "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Unbounded:wght@300;400;500;600;700;800;900&display=swap",
+  },
+
   // ===== Контакты =====
   contacts: {
     address: 'ул. Астрономическая, 9, Казань',
