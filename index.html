@@ -3,8 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Катарсис — Живые эмоции. Настоящие люди</title>
-  <meta name="description" content="Бар «Катарсис» — живые эмоции, настоящие люди. Караоке, коктейли, кальяны, частные мероприятия, франшиза.">
+  <title id="seo-title">Катарсис — Караоке-бар</title>
+  <meta id="seo-desc" name="description" content="Караоке-бар «Катарсис» в Казани">
+  <meta id="seo-keys" name="keywords" content="катарсис, караоке-бар, казань">
+  <meta id="seo-og" property="og:image" content="assets/hero-image.png">
   <link rel="icon" type="image/png" href="assets/favicon.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Unbounded:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -59,13 +61,13 @@
       <span class="hero__title-line hero__title-line--sub">Настоящие люди</span>
     </h1>
     <div class="hero__buttons" data-aos>
-      <button class="btn btn--glass" onclick="openModal('feedback')">
+      <button class="btn btn--glass" onclick="openModal('feedback')" data-section="feedback">
         <i class="fas fa-star"></i> Оставить отзыв
       </button>
-      <button class="btn btn--glass" onclick="openModal('booking')">
+      <button class="btn btn--glass" onclick="openModal('booking')" data-section="booking">
         <i class="fas fa-utensils"></i> Забронировать банкет
       </button>
-      <button class="btn btn--glass" onclick="openModal('franchise')">
+      <button class="btn btn--glass" onclick="openModal('franchise')" data-section="franchise">
         <i class="fas fa-chart-line"></i> Открыть франшизу
       </button>
     </div>
@@ -76,7 +78,7 @@
   </div>
 </section>
 
-<section class="section events" id="events">
+<section class="section events" id="events" data-section="events">
   <div class="section__header" data-aos>
     <h2 class="section__title">Что скоро планируется</h2>
     <p class="section__subtitle">Следите за нашими событиями</p>
@@ -107,7 +109,7 @@
   </div>
 </section>
 
-<section class="section activities" id="activities">
+<section class="section activities" id="activities" data-section="activities">
   <div class="section__header" data-aos>
     <h2 class="section__title">Наши активности</h2>
     <p class="section__subtitle">Каждый найдёт развлечение по душе</p>
@@ -213,9 +215,9 @@
     </div>
     <div class="footer__col">
       <h4 class="footer__title">Контакты</h4>
-      <p class="footer__text"><i class="fas fa-map-marker-alt"></i> Казань, ул. Баумана, 42</p>
-      <p class="footer__text"><i class="fas fa-phone"></i> +7 (999) 123-45-67</p>
-      <p class="footer__text"><i class="fas fa-clock"></i> Пн-Вс: 18:00 — 06:00</p>
+      <p class="footer__text"><i class="fas fa-map-marker-alt"></i> <span id="contact-address">ул. Астрономическая, 9, Казань</span></p>
+      <p class="footer__text"><i class="fas fa-phone"></i> <span id="contact-phone">+7 (999) 123-45-67</span></p>
+      <p class="footer__text"><i class="fas fa-clock"></i> <span id="contact-hours">Пн-Вс: 18:00 — 06:00</span></p>
     </div>
   </div>
   <div class="footer__bottom">
@@ -318,6 +320,45 @@
   </div>
 </div>
 
+<script src="config.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const cfg = SITE_CONFIG;
+
+  // SEO
+  document.title = cfg.seo.title;
+  document.getElementById('seo-title').textContent = cfg.seo.title;
+  document.getElementById('seo-desc').setAttribute('content', cfg.seo.description);
+  document.getElementById('seo-keys').setAttribute('content', cfg.seo.keywords);
+  document.getElementById('seo-og').setAttribute('content', cfg.seo.ogImage);
+
+  // Секции
+  document.querySelectorAll('[data-section]').forEach(el => {
+    const section = el.dataset.section;
+    if (cfg.sections[section] === false) {
+      el.style.display = 'none';
+      // Если секция — это <section>, удаляем и ссылку в навигации
+      if (el.tagName === 'SECTION') {
+        const link = document.querySelector(`.navbar__link[href="#${el.id}"]`);
+        if (link) link.style.display = 'none';
+        const footerLink = document.querySelector(`.footer__link[href="#${el.id}"]`);
+        if (footerLink) footerLink.style.display = 'none';
+      }
+    }
+  });
+
+  // Контакты
+  document.getElementById('contact-address').textContent = cfg.contacts.address;
+  document.getElementById('contact-phone').textContent = cfg.contacts.phone;
+  document.getElementById('contact-hours').textContent = cfg.contacts.workingHours;
+
+  // Соцсети
+  const socials = document.querySelectorAll('.footer__social');
+  if (socials[0]) socials[0].href = cfg.contacts.telegram;
+  if (socials[1]) socials[1].href = cfg.contacts.vk;
+  if (socials[2]) socials[2].href = cfg.contacts.whatsapp;
+});
+</script>
 <script src="js/particles.js"></script>
 <script src="js/main.js"></script>
 <script src="js/feedback.js"></script>
