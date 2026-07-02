@@ -9,13 +9,22 @@ const SPREADSHEET_ID = '1S5VmlHEMmeon1GakAmVf84dh5p2Lb3IkGVBjkDjP2yI';
 // ═══════════════════════════════════════════
 function testAuth() {
   const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
-  const configSheet = ss.getSheetByName('Config');
+  const configSheet = getSheet(ss, 'Config');
   const data = configSheet.getDataRange().getValues();
   Logger.log('✅ Доступ получен. Строк в Config: ' + data.length);
 }
 
+function getSheet(ss, name) {
+  const sheets = ss.getSheets();
+  for (let i = 0; i < sheets.length; i++) {
+    if (sheets[i].getName().toLowerCase() === name.toLowerCase()) return sheets[i];
+  }
+  return null;
+}
+
 function getSetting(ss, key) {
-  const sheet = ss.getSheetByName('Settings');
+  const sheet = getSheet(ss, 'Settings');
+  if (!sheet) return '';
   const data = sheet.getDataRange().getValues();
   for (let i = 0; i < data.length; i++) {
     if (data[i][0] === key) return data[i][1].toString().trim();
@@ -48,7 +57,7 @@ function doGet(e) {
     }
 
     // Иначе — вернуть конфиг
-    const configSheet = ss.getSheetByName('Config');
+    const configSheet = getSheet(ss, 'Config');
     const data = configSheet.getDataRange().getValues();
     const config = {};
 
@@ -85,7 +94,7 @@ function doPost(e) {
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
 
     // Токен бота из Settings
-    const settingsSheet = ss.getSheetByName('Settings');
+    const settingsSheet = getSheet(ss, 'Settings');
     const settingsData = settingsSheet.getDataRange().getValues();
     let token = '';
     for (let i = 0; i < settingsData.length; i++) {
@@ -97,7 +106,7 @@ function doPost(e) {
     if (!token) throw new Error('Токен не найден в таблице Settings');
 
     // Пользователи из Users
-    const usersSheet = ss.getSheetByName('Users');
+    const usersSheet = getSheet(ss, 'Users');
     const usersData = usersSheet.getDataRange().getValues();
     const headers = usersData[0];
 
