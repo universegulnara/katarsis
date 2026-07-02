@@ -15,21 +15,24 @@ function replaceMarker(html, key, value) {
 }
 
 function replaceMarkerHref(html, key, url) {
-  const re = new RegExp(`(<!--\\s*${escReg(key)}\\s*--><a[^>]*?href=")([^"]*)(")`, 'gs');
+  const re = new RegExp(`(<!--\\s*${escReg(key)}\\s*--><a[^]*?href=")([^"]*)(")`, 'gs');
   const result = html.replace(re, '$1' + url + '$3');
   if (result === html) console.warn('  ⚠️  Href marker not found: ' + key);
   return result;
 }
 
 function replaceTitleMarker(html, key, value) {
-  const re = new RegExp(`(<!--\\s*${escReg(key)}\\s*-->)\\s*<title>.*?<\\/title>\\s*(<!--\\s*\\/\\s*${escReg(key)}\\s*-->)`, 'gs');
-  const result = html.replace(re, `$1<title>${value}</title>$2`);
-  if (result === html) console.warn('  ⚠️  Title marker not found: ' + key);
-  return result;
+  const start = `<!-- ${key} --><title>`;
+  const end = `</title><!-- /${key} -->`;
+  const s = html.indexOf(start);
+  if (s === -1) { console.warn('  ⚠️  Title marker not found: ' + key); return html; }
+  const e = html.indexOf(end, s + 1);
+  if (e === -1) { console.warn('  ⚠️  Title marker /end not found: ' + key); return html; }
+  return html.substring(0, s + start.length) + value + html.substring(e);
 }
 
 function replaceMarkerAttr(html, key, value, attr) {
-  const re = new RegExp(`(<!--\\s*${escReg(key)}\\s*--><[^>]*?${attr}=")([^"]*)(")`, 'gs');
+  const re = new RegExp(`(<!--\\s*${escReg(key)}\\s*-->[^]*?${attr}=")([^"]*)(")`, 'gs');
   const result = html.replace(re, '$1' + value + '$3');
   if (result === html) console.warn('  ⚠️  Attr marker not found: ' + key + ' [' + attr + ']');
   return result;
