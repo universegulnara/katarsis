@@ -332,49 +332,69 @@
   </div>
 </div>
 
-<script src="config.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const cfg = SITE_CONFIG;
+const CONFIG_URL = 'ВСТАВЬТЕ_URL_ДЛЯ_GET';
 
-  // SEO
-  document.title = cfg.seo.title;
-  document.getElementById('seo-title').textContent = cfg.seo.title;
-  document.getElementById('seo-desc').setAttribute('content', cfg.seo.description);
-  document.getElementById('seo-keys').setAttribute('content', cfg.seo.keywords);
-  document.getElementById('seo-og').setAttribute('content', cfg.seo.ogImage);
+async function loadConfig() {
+  try {
+    const res = await fetch(CONFIG_URL);
+    const cfg = await res.json();
 
-  // Шрифты
-  document.getElementById('google-fonts').href = cfg.fonts.googleUrl;
-  document.documentElement.style.setProperty('--font', cfg.fonts.body);
-  document.documentElement.style.setProperty('--font-heading', cfg.fonts.heading);
-
-  // Секции
-  document.querySelectorAll('[data-section]').forEach(el => {
-    const section = el.dataset.section;
-    if (cfg.sections[section] === false) {
-      el.style.display = 'none';
-      // Если секция — это <section>, удаляем и ссылку в навигации
-      if (el.tagName === 'SECTION') {
-        const link = document.querySelector(`.navbar__link[href="#${el.id}"]`);
-        if (link) link.style.display = 'none';
-        const footerLink = document.querySelector(`.footer__link[href="#${el.id}"]`);
-        if (footerLink) footerLink.style.display = 'none';
-      }
+    if (cfg.error) {
+      console.warn('Config fetch error:', cfg.error);
+      return;
     }
-  });
 
-  // Контакты
-  document.getElementById('contact-address').textContent = cfg.contacts.address;
-  document.getElementById('contact-phone').textContent = cfg.contacts.phone;
-  document.getElementById('contact-hours').textContent = cfg.contacts.workingHours;
+    // SEO
+    if (cfg.seo) {
+      document.title = cfg.seo.title || document.title;
+      document.getElementById('seo-title').textContent = cfg.seo.title || document.title;
+      if (cfg.seo.description) document.getElementById('seo-desc').setAttribute('content', cfg.seo.description);
+      if (cfg.seo.keywords) document.getElementById('seo-keys').setAttribute('content', cfg.seo.keywords);
+      if (cfg.seo.ogImage) document.getElementById('seo-og').setAttribute('content', cfg.seo.ogImage);
+    }
 
-  // Соцсети
-  const socials = document.querySelectorAll('.footer__social');
-  if (socials[0]) socials[0].href = cfg.contacts.telegram;
-  if (socials[1]) socials[1].href = cfg.contacts.vk;
-  if (socials[2]) socials[2].href = cfg.contacts.whatsapp;
-});
+    // Шрифты
+    if (cfg.fonts) {
+      if (cfg.fonts.googleUrl) document.getElementById('google-fonts').href = cfg.fonts.googleUrl;
+      if (cfg.fonts.body) document.documentElement.style.setProperty('--font', cfg.fonts.body);
+      if (cfg.fonts.heading) document.documentElement.style.setProperty('--font-heading', cfg.fonts.heading);
+    }
+
+    // Секции
+    if (cfg.sections) {
+      document.querySelectorAll('[data-section]').forEach(el => {
+        const section = el.dataset.section;
+        if (cfg.sections[section] === false) {
+          el.style.display = 'none';
+          if (el.tagName === 'SECTION') {
+            const link = document.querySelector(`.navbar__link[href="#${el.id}"]`);
+            if (link) link.style.display = 'none';
+            const footerLink = document.querySelector(`.footer__link[href="#${el.id}"]`);
+            if (footerLink) footerLink.style.display = 'none';
+          }
+        }
+      });
+    }
+
+    // Контакты
+    if (cfg.contacts) {
+      if (cfg.contacts.address) document.getElementById('contact-address').textContent = cfg.contacts.address;
+      if (cfg.contacts.phone) document.getElementById('contact-phone').textContent = cfg.contacts.phone;
+      if (cfg.contacts.workingHours) document.getElementById('contact-hours').textContent = cfg.contacts.workingHours;
+
+      const socials = document.querySelectorAll('.footer__social');
+      if (cfg.contacts.telegram && socials[0]) socials[0].href = cfg.contacts.telegram;
+      if (cfg.contacts.vk && socials[1]) socials[1].href = cfg.contacts.vk;
+      if (cfg.contacts.whatsapp && socials[2]) socials[2].href = cfg.contacts.whatsapp;
+    }
+
+  } catch (error) {
+    console.warn('Config load failed, using defaults:', error);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadConfig);
 </script>
 <script src="js/particles.js"></script>
 <script src="js/main.js"></script>
