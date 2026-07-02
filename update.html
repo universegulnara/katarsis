@@ -67,7 +67,7 @@
           status.className = 'status status--ok';
           status.textContent = '✅ Сборка запущена! Ждите ~1 минуту.';
         } else {
-          throw new Error(data.message || 'Unknown error');
+          throw new Error(data.message || data.error || 'Ответ скрипта: ' + JSON.stringify(data).slice(0, 200));
         }
       } catch (err) {
         status.className = 'status status--err';
