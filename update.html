@@ -32,6 +32,8 @@
     .status--ok { color: #4ade80; }
     .status--err { color: #f87171; }
     .status--loading { color: #c990ff; }
+    .link-main { color: rgba(255,255,255,.4); text-decoration: none; transition: color .15s; }
+    .link-main:hover { color: #c990ff; }
     .btn--outline {
       background: transparent; border: 1px solid rgba(255,255,255,.2);
     }
@@ -47,7 +49,7 @@
       <span>⟳</span> Update Site
     </button>
     <div class="status" id="status"></div>
-    <div class="footer">Катарсис · обновление через GitHub Actions</div>
+    <div class="footer"><a href="index.html" class="link-main">← На главную</a></div>
   </div>
 
   <script>

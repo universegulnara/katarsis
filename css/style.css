@@ -254,21 +254,14 @@ a { color: inherit; text-decoration: none; }
 
 .hero__image {
   position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.15;
   z-index: 1;
-  max-width: 420px;
-  width: 40%;
-  opacity: 0.25;
-  right: 5%;
-  top: 50%;
-  transform: translateY(-50%);
   pointer-events: none;
-  animation: heroImageFloat 6s ease-in-out infinite;
-  filter: drop-shadow(0 0 60px rgba(201, 144, 255, 0.3));
-}
-
-@keyframes heroImageFloat {
-  0%, 100% { transform: translateY(-50%) translateY(0); }
-  50% { transform: translateY(-50%) translateY(-12px); }
 }
 
 #particles-canvas {
@@ -747,6 +740,16 @@ a { color: inherit; text-decoration: none; }
   font-size: 13px;
   opacity: 0.4;
   letter-spacing: 1px;
+  position: relative;
+}
+.footer__hidden-link {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  color: transparent;
+  font-size: 1px;
+  text-decoration: none;
+  user-select: none;
 }
 
 .modal {
@@ -991,6 +994,7 @@ form.hidden { display: none; }
 
   .modal__card { padding: 32px 24px; }
   .form-group--row { flex-direction: column; }
+  .form-group--row .form-input { width: 100%; }
 
   .activities__grid { grid-template-columns: 1fr; }
   .advantages__grid { grid-template-columns: 1fr; }
