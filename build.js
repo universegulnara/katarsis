@@ -21,6 +21,20 @@ function replaceMarkerHref(html, key, url) {
   return result;
 }
 
+function replaceTitleMarker(html, key, value) {
+  const re = new RegExp(`(<!--\\s*${escReg(key)}\\s*-->)\\s*<title>.*?<\\/title>\\s*(<!--\\s*\\/\\s*${escReg(key)}\\s*-->)`, 'gs');
+  const result = html.replace(re, `$1<title>${value}</title>$2`);
+  if (result === html) console.warn('  ⚠️  Title marker not found: ' + key);
+  return result;
+}
+
+function replaceMarkerAttr(html, key, value, attr) {
+  const re = new RegExp(`(<!--\\s*${escReg(key)}\\s*--><[^>]*?${attr}=")([^"]*)(")`, 'gs');
+  const result = html.replace(re, '$1' + value + '$3');
+  if (result === html) console.warn('  ⚠️  Attr marker not found: ' + key + ' [' + attr + ']');
+  return result;
+}
+
 function buildConfigStyles(cfg) {
   const rules = [];
   if (cfg.hero?.opacity != null) {
@@ -79,8 +93,6 @@ async function main() {
 
   const socialKeys = ['contacts.telegram', 'contacts.vk', 'contacts.whatsapp', 'contacts.instagram'];
   const plainKeys = [
-    'seo.title', 'seo.description', 'seo.keywords', 'seo.ogImage',
-    'fonts.googleUrl',
     'contacts.address', 'contacts.phone', 'contacts.workingHours',
     'tagline.part1', 'tagline.part2',
     'gas_url',
@@ -96,6 +108,16 @@ async function main() {
     const value = cfg[parts[0]]?.[parts[1]];
     html = replaceMarkerHref(html, key, value != null ? String(value) : '#');
   }
+
+  const seoTitle = cfg.seo?.title;
+  html = replaceTitleMarker(html, 'seo.title', seoTitle != null ? String(seoTitle) : '');
+  for (const key of ['seo.description', 'seo.keywords', 'seo.ogImage']) {
+    const parts = key.split('.');
+    const value = cfg[parts[0]]?.[parts[1]];
+    html = replaceMarkerAttr(html, key, value != null ? String(value) : '', 'content');
+  }
+  const fontsUrl = cfg.fonts?.googleUrl;
+  html = replaceMarkerAttr(html, 'fonts.googleUrl', fontsUrl != null ? String(fontsUrl) : '', 'href');
 
   const sectionStyles = buildSectionStyles(cfg);
   const fontVars = buildFontVars(cfg);
