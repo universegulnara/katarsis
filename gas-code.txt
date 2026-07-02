@@ -1,13 +1,50 @@
+// ═══════════════════════════════════════════
+// 1. ВСТАВЬТЕ СЮДА ID ВАШЕЙ ТАБЛИЦЫ
+// ═══════════════════════════════════════════
+const SPREADSHEET_ID = 'ВСТАВЬТЕ_ID_ТАБЛИЦЫ';
+
 function doPost(e) {
   try {
     const data = JSON.parse(e.postData.contents);
-
-    // Логирование входящего запроса
     console.log('📥 Получен запрос:', JSON.stringify(data));
 
-    const token = '8961389382:AAEN-FsVb7lsvceqBn6fMkzdIgXnN5n4x5M';
-    const chatId = '191252645';
+    // Читаем настройки из таблицы
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
 
+    // Токен бота из Settings
+    const settingsSheet = ss.getSheetByName('Settings');
+    const settingsData = settingsSheet.getDataRange().getValues();
+    let token = '';
+    for (let i = 0; i < settingsData.length; i++) {
+      if (settingsData[i][0] === 'bot_token') {
+        token = settingsData[i][1].toString().trim();
+        break;
+      }
+    }
+
+    if (!token) {
+      throw new Error('Токен не найден в таблице Settings');
+    }
+    console.log('🔑 Токен загружен');
+
+    // Читаем пользователей из Users
+    const usersSheet = ss.getSheetByName('Users');
+    const usersData = usersSheet.getDataRange().getValues();
+    const headers = usersData[0];
+
+    // Индексы колонок
+    const chatIdIdx = headers.indexOf('Chat ID');
+    const nameIdx = headers.indexOf('Name');
+    const feedbackIdx = headers.indexOf('Feedback');
+    const bookingIdx = headers.indexOf('Booking');
+    const franchiseIdx = headers.indexOf('Franchise');
+    const activeIdx = headers.indexOf('Active');
+
+    if (chatIdIdx === -1 || activeIdx === -1) {
+      throw new Error('Неверная структура таблицы. Нужны колонки: Chat ID, Name, Feedback, Booking, Franchise, Active');
+    }
+
+    // Формируем текст сообщения
     let text = '';
     switch(data.type) {
       case 'feedback':
@@ -23,22 +60,49 @@ function doPost(e) {
         text = '❓ Неизвестный тип: ' + data.type;
     }
 
-    console.log('📤 Отправка в Telegram...');
-    console.log('Chat ID:', chatId);
+    // Отправляем всем подходящим пользователям
+    let sentCount = 0;
+    for (let i = 1; i < usersData.length; i++) {
+      const row = usersData[i];
+      const isActive = String(row[activeIdx]).toUpperCase() === 'TRUE' || row[activeIdx] === true;
 
-    const result = UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
-      method: 'post',
-      payload: {
-        chat_id: chatId,
-        text: text,
-        parse_mode: 'Markdown'
+      if (!isActive) continue;
+
+      const chatId = String(row[chatIdIdx]).trim();
+      if (!chatId) continue;
+
+      // Проверяем права на этот тип уведомления
+      let hasPermission = false;
+      if (data.type === 'feedback' && feedbackIdx !== -1) {
+        hasPermission = String(row[feedbackIdx]).toUpperCase() === 'TRUE' || row[feedbackIdx] === true;
+      } else if (data.type === 'booking' && bookingIdx !== -1) {
+        hasPermission = String(row[bookingIdx]).toUpperCase() === 'TRUE' || row[bookingIdx] === true;
+      } else if (data.type === 'franchise' && franchiseIdx !== -1) {
+        hasPermission = String(row[franchiseIdx]).toUpperCase() === 'TRUE' || row[franchiseIdx] === true;
       }
-    });
 
-    console.log('✅ Telegram ответ:', result.getContentText());
+      if (!hasPermission) continue;
+
+      try {
+        const result = UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
+          method: 'post',
+          payload: {
+            chat_id: chatId,
+            text: text,
+            parse_mode: 'Markdown'
+          }
+        });
+        console.log('✅ Отправлено пользователю ' + chatId + ': ' + result.getContentText());
+        sentCount++;
+      } catch (sendError) {
+        console.error('❌ Ошибка отправки пользователю ' + chatId + ': ' + sendError.message);
+      }
+    }
+
+    console.log('📊 Отправлено ' + sentCount + ' пользователям');
 
     return ContentService
-      .createTextOutput(JSON.stringify({ status: 'ok' }))
+      .createTextOutput(JSON.stringify({ status: 'ok', sent: sentCount }))
       .setMimeType(ContentService.MimeType.JSON);
 
   } catch (error) {

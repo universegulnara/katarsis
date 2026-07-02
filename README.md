@@ -39,77 +39,75 @@ git push origin main
 
 ---
 
-## 🤖 Настройка Telegram-бота (для формы отзыва)
+## 🤖 Настройка Telegram-бота (с таблицей пользователей)
 
-### Шаг 1. Создать бота
+Вся админка бота живёт в **Google Таблице**:
+- токен бота
+- список получателей уведомлений
+- права (кто получает отзывы, бронь, франшизу)
+
+### Шаг 1. Создать бота в Telegram
 
 1. Откройте Telegram: [@BotFather](https://t.me/BotFather)
 2. Напишите `/newbot`
-3. Введите название: `Катарсис Отзывы`
-4. Введите username: `katarsis_feedback_bot`
+3. Название: `Катарсис Отзывы`
+4. Username: `katarsis_feedback_bot`
 5. BotFather пришлёт **токен** — сохраните его
 
-### Шаг 2. Узнать ваш Chat ID
+### Шаг 2. Создать Google Таблицу
 
-1. Напишите боту [@userinfobot](https://t.me/userinfobot)
-2. Нажмите **Start**
-3. Бот пришлёт: `Id: 123456789` — это ваш `TG_CHAT_ID`
+Сделайте копию шаблона:  
+👉 **[Ссылка на шаблон таблицы](https://docs.google.com/spreadsheets/d/1EIAOzR4I9gy_L1vXMIHYFKqMJNN8TBZvV9GQ2oA71-A/copy)**
 
-### Шаг 3. Создать Google Apps Script
+В таблице два листа:
+
+**Лист `Settings`** — токен бота:
+| Key | Value |
+|-----|-------|
+| bot_token | 8961389382:AAEN-... (ваш токен) |
+
+**Лист `Users`** — пользователи с правами:
+| Chat ID | Name | Feedback | Booking | Franchise | Active |
+|---------|------|----------|---------|-----------|--------|
+| 191252645 | Владелец | TRUE | TRUE | TRUE | TRUE |
+
+Заполните:
+- `Chat ID` — узнайте у [@userinfobot](https://t.me/userinfobot) (только цифры)
+- `Name` — имя пользователя
+- `Feedback` / `Booking` / `Franchise` — `TRUE` если можно, `FALSE` если нет
+- `Active` — `TRUE` чтобы включить
+
+Хотите добавить второго менеджера? Просто добавьте строку в таблицу.
+
+### Шаг 3. Получить ID таблицы
+
+Откройте таблицу → в адресной строке браузера найдите **id**:
+
+```
+https://docs.google.com/spreadsheets/d/1EIAOzR4I9gy_L1vXMIHYFKqMJNN8TBZvV9GQ2oA71-A/edit
+                                        ↑←────────── ЭТО ID ──────────→↑
+```
+
+Скопируйте этот ID.
+
+### Шаг 4. Создать Google Apps Script
 
 1. Откройте: [script.google.com](https://script.google.com)
 2. Нажмите **"Новый проект"**
-3. Удалите весь код и вставьте этот:
+3. Удалите весь код и вставьте код из файла **`gas-code.txt`** (лежит в корне проекта)
+4. Найдите в начале строку:
+   ```javascript
+   const SPREADSHEET_ID = 'ВСТАВЬТЕ_ID_ТАБЛИЦЫ';
+   ```
+5. Замените `'ВСТАВЬТЕ_ID_ТАБЛИЦЫ'` на скопированный ID таблицы
+6. Нажмите **Сохранить** → имя проекта `KatarsisBot`
+7. Слева в списке сервисов нажмите **+** → **"Google Sheets"** → **Добавить**
+8. Нажмите **"Развернуть"** → **"Новое развертывание"** → **"Веб-приложение"**
+9. Выберите: **"Все, у кого есть ссылка"**
+10. Нажмите **"Развернуть"**
+11. Скопируйте **URL веб-приложения** (вида `https://script.google.com/macros/s/.../exec`)
 
-```javascript
-function doPost(e) {
-  try {
-    const data = JSON.parse(e.postData.contents);
-    console.log('📥 Получен запрос:', JSON.stringify(data)); // ← лог
-
-    const token = 'ВАШ_ТОКЕН_БОТА';
-    const chatId = 'ВАШ_CHAT_ID';     // ⚠️ ТОЛЬКО цифры, без "Id: "
-
-    let text = '';
-    switch(data.type) {
-      case 'feedback':
-        text = '✉️ *Новый отзыв!*\n👤 Имя: ' + data.name + '\n📞 Телефон: ' + data.phone + '\n⭐ Рейтинг: ' + (data.rating || 'не указан') + '\n💬 ' + data.message;
-        break;
-      case 'booking':
-        text = '🍽 *Бронирование банкета*\n👤 Имя: ' + data.name + '\n📞 Телефон: ' + data.phone + '\n📅 Дата: ' + data.date + '\n👥 Гостей: ' + data.guests + '\n📝 Пожелания: ' + (data.notes || 'нет');
-        break;
-      case 'franchise':
-        text = '📊 *Заявка на франшизу*\n👤 Имя: ' + data.name + '\n📞 Телефон: ' + data.phone + '\n📧 Email: ' + data.email + '\n🏙 Город: ' + data.city;
-        break;
-    }
-
-    console.log('📤 Отправка в Telegram...');
-    const result = UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
-      method: 'post',
-      payload: { chat_id: chatId, text: text, parse_mode: 'Markdown' }
-    });
-    console.log('✅ Ответ:', result.getContentText());
-
-    return ContentService.createTextOutput(JSON.stringify({ status: 'ok' })).setMimeType(ContentService.MimeType.JSON);
-
-  } catch (error) {
-    console.error('❌ Ошибка:', error.message); // ← лог ошибки
-    return ContentService.createTextOutput(JSON.stringify({ status: 'error', message: error.message })).setMimeType(ContentService.MimeType.JSON);
-  }
-}
-```
-
-4. Замените `ВАШ_ТОКЕН_БОТА` и `ВАШ_CHAT_ID` на свои  
-   ⚠️ **ВАЖНО:** в `chatId` пишите **только цифры**, без «Id:»  
-   ✅ Правильно: `'191252645'`  
-   ❌ Неправильно: `'Id: 191252645'`
-5. Нажмите **Сохранить** → дайте имя проекту (например `KatarsisBot`)
-6. Нажмите **"Развернуть"** → **"Новое развертывание"** → **"Веб-приложение"**
-7. Выберите: **"Все, у кого есть ссылка"**
-8. Нажмите **"Развернуть"**
-9. Скопируйте **URL веб-приложения** (вида `https://script.google.com/macros/s/.../exec`)
-
-### Шаг 4. Подключить к сайту
+### Шаг 5. Подключить к сайту
 
 1. Откройте файл `js/feedback.js`
 2. Найдите строку: `const GOOGLE_SCRIPT_URL = '...'`
@@ -118,10 +116,10 @@ function doPost(e) {
 
 ### 🐛 Где смотреть логи
 
-1. Откройте [script.google.com](https://script.google.com) → ваш проект
-2. Слева меню **"Выполнения"** (Executions) — там все запросы и ошибки
-3. Нажмите на любой запуск — увидите **лог** (все console.log)
-4. Если проблема на сайте: **F12 → Console** — отправьте форму, будут ошибки JS
+1. [script.google.com](https://script.google.com) → ваш проект
+2. Слева меню **"Выполнения"** (Executions) — все запросы и ошибки
+3. Нажмите на запуск → увидите лог (console.log)
+4. Если проблема на сайте: **F12 → Console** — отправьте форму
 
 ---
 
