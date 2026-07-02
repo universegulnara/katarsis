@@ -42,7 +42,7 @@ function buildConfigStyles(cfg) {
   }
   const socials = cfg.socials || {};
   for (const [name, visible] of Object.entries(socials)) {
-    if (visible === false) {
+    if (visible === false || visible === 'FALSE') {
       rules.push('[data-social="' + name + '"]{display:none!important}');
     }
   }
@@ -53,7 +53,7 @@ function buildSectionStyles(cfg) {
   if (!cfg.sections) return '';
   const rules = [];
   for (const [name, visible] of Object.entries(cfg.sections)) {
-    if (visible === false) {
+    if (visible === false || visible === 'FALSE') {
       rules.push('#' + name + ',#' + name + ' .navbar__link[href="#' + name + '"],.footer__link[href="#' + name + '"]{display:none!important}');
       rules.push('.navbar__link[href="#' + name + '"],.footer__link[href="#' + name + '"]{display:none!important}');
     }
@@ -96,7 +96,8 @@ async function main() {
     'contacts.address', 'contacts.phone', 'contacts.workingHours',
     'tagline.part1', 'tagline.part2',
     'gas_url',
-    'analytics.google_id', 'analytics.yandex_id'
+    'analytics.google_id', 'analytics.yandex_id',
+    'socials.instagram_note'
   ];
   for (const key of plainKeys) {
     const parts = key.split('.');
