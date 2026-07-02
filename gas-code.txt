@@ -1,0 +1,125 @@
+// ═══════════════════════════════════════════
+// ВСТАВЬТЕ СЮДА ID ВАШЕЙ ТАБЛИЦЫ
+// ═══════════════════════════════════════════
+const SPREADSHEET_ID = 'ВСТАВЬТЕ_ID_ТАБЛИЦЫ';
+
+function doGet() {
+  try {
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+    const configSheet = ss.getSheetByName('Config');
+    const data = configSheet.getDataRange().getValues();
+    const config = {};
+
+    for (let i = 0; i < data.length; i++) {
+      const key = data[i][0];
+      const val = data[i][1];
+      if (!key) continue;
+
+      const parts = key.split('.');
+      if (parts.length === 2) {
+        if (!config[parts[0]]) config[parts[0]] = {};
+        config[parts[0]][parts[1]] = val === 'TRUE' ? true : val === 'FALSE' ? false : val;
+      } else {
+        config[key] = val === 'TRUE' ? true : val === 'FALSE' ? false : val;
+      }
+    }
+
+    const output = ContentService
+      .createTextOutput(JSON.stringify(config))
+      .setMimeType(ContentService.MimeType.JSON);
+    output.setHeaders({ 'Cache-Control': 'no-cache, no-store, must-revalidate' });
+    return output;
+
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: error.message }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}
+
+function doPost(e) {
+  try {
+    const data = JSON.parse(e.postData.contents);
+    console.log('📥 Получен запрос:', JSON.stringify(data));
+
+    const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+
+    // Токен бота из Settings
+    const settingsSheet = ss.getSheetByName('Settings');
+    const settingsData = settingsSheet.getDataRange().getValues();
+    let token = '';
+    for (let i = 0; i < settingsData.length; i++) {
+      if (settingsData[i][0] === 'bot_token') {
+        token = settingsData[i][1].toString().trim();
+        break;
+      }
+    }
+    if (!token) throw new Error('Токен не найден в таблице Settings');
+
+    // Пользователи из Users
+    const usersSheet = ss.getSheetByName('Users');
+    const usersData = usersSheet.getDataRange().getValues();
+    const headers = usersData[0];
+
+    const chatIdIdx = headers.indexOf('Chat ID');
+    const feedbackIdx = headers.indexOf('Feedback');
+    const bookingIdx = headers.indexOf('Booking');
+    const franchiseIdx = headers.indexOf('Franchise');
+    const activeIdx = headers.indexOf('Active');
+
+    if (chatIdIdx === -1 || activeIdx === -1) {
+      throw new Error('Неверная структура таблицы');
+    }
+
+    let text = '';
+    switch(data.type) {
+      case 'feedback':
+        text = '✉️ *Новый отзыв!*\n👤 Имя: ' + data.name + '\n📞 Телефон: ' + data.phone + '\n⭐ Рейтинг: ' + (data.rating || 'не указан') + '\n💬 ' + data.message;
+        break;
+      case 'booking':
+        text = '🍽 *Бронирование банкета*\n👤 Имя: ' + data.name + '\n📞 Телефон: ' + data.phone + '\n📅 Дата: ' + data.date + '\n👥 Гостей: ' + data.guests + '\n📝 Пожелания: ' + (data.notes || 'нет');
+        break;
+      case 'franchise':
+        text = '📊 *Заявка на франшизу*\n👤 Имя: ' + data.name + '\n📞 Телефон: ' + data.phone + '\n📧 Email: ' + data.email + '\n🏙 Город: ' + data.city;
+        break;
+    }
+
+    let sentCount = 0;
+    for (let i = 1; i < usersData.length; i++) {
+      const row = usersData[i];
+      if (String(row[activeIdx]).toUpperCase() !== 'TRUE') continue;
+
+      const chatId = String(row[chatIdIdx]).trim();
+      if (!chatId) continue;
+
+      let hasPermission = false;
+      const typeIdx = data.type === 'feedback' ? feedbackIdx : data.type === 'booking' ? bookingIdx : data.type === 'franchise' ? franchiseIdx : -1;
+      if (typeIdx !== -1) {
+        hasPermission = String(row[typeIdx]).toUpperCase() === 'TRUE';
+      }
+
+      if (!hasPermission) continue;
+
+      try {
+        UrlFetchApp.fetch('https://api.telegram.org/bot' + token + '/sendMessage', {
+          method: 'post',
+          payload: { chat_id: chatId, text: text, parse_mode: 'Markdown' }
+        });
+        console.log('✅ Отправлено ' + chatId);
+        sentCount++;
+      } catch (e) {
+        console.error('❌ Ошибка отправки ' + chatId + ': ' + e.message);
+      }
+    }
+
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'ok', sent: sentCount }))
+      .setMimeType(ContentService.MimeType.JSON);
+
+  } catch (error) {
+    console.error('❌ Ошибка:', error.message);
+    return ContentService
+      .createTextOutput(JSON.stringify({ status: 'error', message: error.message }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}

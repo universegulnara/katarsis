@@ -3,14 +3,34 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title id="seo-title">Катарсис — Караоке-бар</title>
-  <meta id="seo-desc" name="description" content="Караоке-бар «Катарсис» в Казани">
-  <meta id="seo-keys" name="keywords" content="катарсис, караоке-бар, казань">
-  <meta id="seo-og" property="og:image" content="assets/hero-image.png">
+  <title id="seo-title"><!-- seo.title -->Катарсис — Караоке-бар<!-- /seo.title --></title>
+  <meta id="seo-desc" name="description" content="<!-- seo.description -->Караоке-бар «Катарсис» в Казани<!-- /seo.description -->">
+  <meta id="seo-keys" name="keywords" content="<!-- seo.keywords -->катарсис, караоке-бар, казань<!-- /seo.keywords -->">
+  <meta id="seo-og" property="og:image" content="<!-- seo.ogImage -->assets/hero-image.png<!-- /seo.ogImage -->">
   <link rel="icon" type="image/png" href="assets/favicon.png">
-  <link id="google-fonts" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Unbounded:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link id="google-fonts" href="<!-- fonts.googleUrl -->https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Unbounded:wght@300;400;500;600;700;800;900&display=swap<!-- /fonts.googleUrl -->" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/style.css">
+  <style id="dynamic-styles"><!-- dynamic-styles --><!-- /dynamic-styles --></style>
+  <!-- ════════ АНАЛИТИКА ════════ -->
+  <!-- begin:analytics -->
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=<!-- analytics.google_id --><!-- /analytics.google_id -->"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '<!-- analytics.google_id --><!-- /analytics.google_id -->');
+  </script>
+  <!-- Yandex.Metrika counter -->
+  <script>
+  (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+  m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+  (window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
+  ym(<!-- analytics.yandex_id --><!-- /analytics.yandex_id -->, 'init', { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });
+  </script>
+  <noscript><div><img src="https://mc.yandex.ru/watch/<!-- analytics.yandex_id --><!-- /analytics.yandex_id -->" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+  <!-- end:analytics -->
 </head>
 <body>
 
@@ -201,9 +221,9 @@
       </div>
       <p class="footer__tagline">Живые эмоции. Настоящие люди</p>
       <div class="footer__socials">
-        <a href="https://t.me/katarsis_bar" class="footer__social" target="_blank"><i class="fab fa-telegram-plane"></i></a>
-        <a href="https://vk.com/katarsis_bar" class="footer__social" target="_blank"><i class="fab fa-vk"></i></a>
-        <a href="https://wa.me/79991234567" class="footer__social" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a href="<!-- contacts.telegram -->https://t.me/katarsis_bar<!-- /contacts.telegram -->" class="footer__social" target="_blank"><i class="fab fa-telegram-plane"></i></a>
+        <a href="<!-- contacts.vk -->https://vk.com/katarsis_bar<!-- /contacts.vk -->" class="footer__social" target="_blank"><i class="fab fa-vk"></i></a>
+        <a href="<!-- contacts.whatsapp -->https://wa.me/79991234567<!-- /contacts.whatsapp -->" class="footer__social" target="_blank"><i class="fab fa-whatsapp"></i></a>
       </div>
     </div>
     <div class="footer__col">
@@ -215,9 +235,9 @@
     </div>
     <div class="footer__col">
       <h4 class="footer__title">Контакты</h4>
-      <p class="footer__text"><i class="fas fa-map-marker-alt"></i> <span id="contact-address">ул. Астрономическая, 9, Казань</span></p>
-      <p class="footer__text"><i class="fas fa-phone"></i> <span id="contact-phone">+7 (999) 123-45-67</span></p>
-      <p class="footer__text"><i class="fas fa-clock"></i> <span id="contact-hours">Пн-Вс: 18:00 — 06:00</span></p>
+      <p class="footer__text"><i class="fas fa-map-marker-alt"></i> <span id="contact-address"><!-- contacts.address -->ул. Астрономическая, 9, Казань<!-- /contacts.address --></span></p>
+      <p class="footer__text"><i class="fas fa-phone"></i> <span id="contact-phone"><!-- contacts.phone -->+7 (999) 123-45-67<!-- /contacts.phone --></span></p>
+      <p class="footer__text"><i class="fas fa-clock"></i> <span id="contact-hours"><!-- contacts.workingHours -->Пн-Вс: 18:00 — 06:00<!-- /contacts.workingHours --></span></p>
     </div>
   </div>
   <div class="footer__bottom">
@@ -331,70 +351,19 @@
     </div>
   </div>
 </div>
-
 <script>
-const CONFIG_URL = 'ВСТАВЬТЕ_URL_ДЛЯ_GET';
+const CONFIG_URL = '<!-- gas_url --><!-- /gas_url -->';
 
-async function loadConfig() {
-  try {
-    const res = await fetch(CONFIG_URL);
-    const cfg = await res.json();
-
-    if (cfg.error) {
-      console.warn('Config fetch error:', cfg.error);
-      return;
-    }
-
-    // SEO
-    if (cfg.seo) {
-      document.title = cfg.seo.title || document.title;
-      document.getElementById('seo-title').textContent = cfg.seo.title || document.title;
-      if (cfg.seo.description) document.getElementById('seo-desc').setAttribute('content', cfg.seo.description);
-      if (cfg.seo.keywords) document.getElementById('seo-keys').setAttribute('content', cfg.seo.keywords);
-      if (cfg.seo.ogImage) document.getElementById('seo-og').setAttribute('content', cfg.seo.ogImage);
-    }
-
-    // Шрифты
-    if (cfg.fonts) {
-      if (cfg.fonts.googleUrl) document.getElementById('google-fonts').href = cfg.fonts.googleUrl;
-      if (cfg.fonts.body) document.documentElement.style.setProperty('--font', cfg.fonts.body);
-      if (cfg.fonts.heading) document.documentElement.style.setProperty('--font-heading', cfg.fonts.heading);
-    }
-
-    // Секции
-    if (cfg.sections) {
-      document.querySelectorAll('[data-section]').forEach(el => {
-        const section = el.dataset.section;
-        if (cfg.sections[section] === false) {
-          el.style.display = 'none';
-          if (el.tagName === 'SECTION') {
-            const link = document.querySelector(`.navbar__link[href="#${el.id}"]`);
-            if (link) link.style.display = 'none';
-            const footerLink = document.querySelector(`.footer__link[href="#${el.id}"]`);
-            if (footerLink) footerLink.style.display = 'none';
-          }
-        }
-      });
-    }
-
-    // Контакты
-    if (cfg.contacts) {
-      if (cfg.contacts.address) document.getElementById('contact-address').textContent = cfg.contacts.address;
-      if (cfg.contacts.phone) document.getElementById('contact-phone').textContent = cfg.contacts.phone;
-      if (cfg.contacts.workingHours) document.getElementById('contact-hours').textContent = cfg.contacts.workingHours;
-
-      const socials = document.querySelectorAll('.footer__social');
-      if (cfg.contacts.telegram && socials[0]) socials[0].href = cfg.contacts.telegram;
-      if (cfg.contacts.vk && socials[1]) socials[1].href = cfg.contacts.vk;
-      if (cfg.contacts.whatsapp && socials[2]) socials[2].href = cfg.contacts.whatsapp;
-    }
-
-  } catch (error) {
-    console.warn('Config load failed, using defaults:', error);
-  }
-}
-
-document.addEventListener('DOMContentLoaded', loadConfig);
+document.addEventListener('DOMContentLoaded', () => {
+  if (!CONFIG_URL) return;
+  fetch(CONFIG_URL + '?t=' + Date.now())
+    .then(r => r.json())
+    .then(cfg => {
+      if (cfg.error) return;
+      if (cfg.fonts?.googleUrl) document.getElementById('google-fonts').href = cfg.fonts.googleUrl;
+    })
+    .catch(() => {});
+});
 </script>
 <script src="js/particles.js"></script>
 <script src="js/main.js"></script>
