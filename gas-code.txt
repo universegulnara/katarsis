@@ -14,9 +14,40 @@ function testAuth() {
   Logger.log('✅ Доступ получен. Строк в Config: ' + data.length);
 }
 
-function doGet() {
+function getSetting(ss, key) {
+  const sheet = ss.getSheetByName('Settings');
+  const data = sheet.getDataRange().getValues();
+  for (let i = 0; i < data.length; i++) {
+    if (data[i][0] === key) return data[i][1].toString().trim();
+  }
+  return '';
+}
+
+function doGet(e) {
   try {
     const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+
+    // Если action=build — запустить GitHub Actions workflow
+    if (e && e.parameter && e.parameter.action === 'build') {
+      const githubToken = getSetting(ss, 'github_token');
+      if (!githubToken) throw new Error('github_token не найден в листе Settings');
+
+      UrlFetchApp.fetch('https://api.github.com/repos/universegulnara/katarsis/actions/workflows/build.yml/dispatches', {
+        method: 'post',
+        headers: {
+          'Authorization': 'Bearer ' + githubToken,
+          'Accept': 'application/vnd.github+json'
+        },
+        payload: JSON.stringify({ ref: 'main' }),
+        contentType: 'application/json'
+      });
+
+      return ContentService
+        .createTextOutput(JSON.stringify({ status: 'ok', message: 'Workflow triggered' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    // Иначе — вернуть конфиг
     const configSheet = ss.getSheetByName('Config');
     const data = configSheet.getDataRange().getValues();
     const config = {};
