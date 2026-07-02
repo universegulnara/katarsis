@@ -1,7 +1,18 @@
 // ═══════════════════════════════════════════
 // ВСТАВЬТЕ СЮДА ID ВАШЕЙ ТАБЛИЦЫ
 // ═══════════════════════════════════════════
-const SPREADSHEET_ID = 'ВСТАВЬТЕ_ID_ТАБЛИЦЫ';
+const SPREADSHEET_ID = '1S5VmlHEMmeon1GakAmVf84dh5p2Lb3IkGVBjkDjP2yI';
+
+// ═══════════════════════════════════════════
+// ЗАПУСТИТЕ ЭТУ ФУНКЦИЮ ОДИН РАЗ В РЕДАКТОРЕ
+// чтобы скрипт запросил доступ к таблице
+// ═══════════════════════════════════════════
+function testAuth() {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const configSheet = ss.getSheetByName('Config');
+  const data = configSheet.getDataRange().getValues();
+  Logger.log('✅ Доступ получен. Строк в Config: ' + data.length);
+}
 
 function doGet() {
   try {
