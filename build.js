@@ -14,6 +14,20 @@ function replaceMarker(html, key, value) {
   return result;
 }
 
+function buildConfigStyles(cfg) {
+  const rules = [];
+  if (cfg.hero?.opacity != null) {
+    rules.push('.hero__image{opacity:' + cfg.hero.opacity + '}');
+  }
+  const socials = cfg.socials || {};
+  for (const [name, visible] of Object.entries(socials)) {
+    if (visible === false) {
+      rules.push('[data-social="' + name + '"]{display:none!important}');
+    }
+  }
+  return rules.join(' ');
+}
+
 function buildSectionStyles(cfg) {
   if (!cfg.sections) return '';
   const rules = [];
@@ -60,7 +74,7 @@ async function main() {
     'seo.title', 'seo.description', 'seo.keywords', 'seo.ogImage',
     'fonts.googleUrl',
     'contacts.address', 'contacts.phone', 'contacts.workingHours',
-    'contacts.telegram', 'contacts.vk', 'contacts.whatsapp',
+    'contacts.telegram', 'contacts.vk', 'contacts.whatsapp', 'contacts.instagram',
     'tagline.part1', 'tagline.part2',
     'gas_url',
     'analytics.google_id', 'analytics.yandex_id'
@@ -73,7 +87,8 @@ async function main() {
 
   const sectionStyles = buildSectionStyles(cfg);
   const fontVars = buildFontVars(cfg);
-  html = replaceMarker(html, 'dynamic-styles', [fontVars, sectionStyles].filter(Boolean).join(' '));
+  const configStyles = buildConfigStyles(cfg);
+  html = replaceMarker(html, 'dynamic-styles', [fontVars, configStyles, sectionStyles].filter(Boolean).join(' '));
 
   fs.writeFileSync(HTML_FILE, html, 'utf-8');
   console.log('✅ Saved to ' + HTML_FILE);
