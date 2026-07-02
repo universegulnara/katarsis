@@ -1,28 +1,7 @@
-const https = require('https');
 const fs = require('fs');
 
-const GAS_URL = process.env.GAS_URL || 'ВСТАВЬТЕ_URL_ДЛЯ_GET';
+const GAS_URL = process.env.GAS_URL || '';
 const HTML_FILE = 'index.html';
-
-function fetchJSON(url) {
-  return new Promise((resolve, reject) => {
-    const u = new URL(url);
-    const opts = {
-      hostname: u.hostname,
-      path: u.pathname + u.search,
-      method: 'GET',
-      headers: { 'Cache-Control': 'no-cache' }
-    };
-    https.get(opts, (res) => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        try { resolve(JSON.parse(data)); }
-        catch (e) { reject(new Error('Invalid JSON: ' + data.slice(0, 200))); }
-      });
-    }).on('error', reject);
-  });
-}
 
 function escReg(s) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -55,11 +34,21 @@ function buildFontVars(cfg) {
 }
 
 async function main() {
+  if (!GAS_URL) {
+    console.error('❌ GAS_URL not set');
+    process.exit(1);
+  }
+
   console.log('📖 Reading ' + HTML_FILE + '…');
   let html = fs.readFileSync(HTML_FILE, 'utf-8');
 
   console.log('🌐 Fetching config from ' + GAS_URL + '…');
-  const cfg = await fetchJSON(GAS_URL + '?t=' + Date.now());
+  const res = await fetch(GAS_URL + '?t=' + Date.now());
+  if (!res.ok) {
+    console.error('❌ HTTP ' + res.status);
+    process.exit(1);
+  }
+  const cfg = await res.json();
 
   if (cfg.error) {
     console.error('❌ Config error: ' + cfg.error);
