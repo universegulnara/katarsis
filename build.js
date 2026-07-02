@@ -14,6 +14,13 @@ function replaceMarker(html, key, value) {
   return result;
 }
 
+function replaceMarkerHref(html, key, url) {
+  const re = new RegExp(`(<!--\\s*${escReg(key)}\\s*--><a[^>]*?href=")([^"]*)(")`, 'gs');
+  const result = html.replace(re, '$1' + url + '$3');
+  if (result === html) console.warn('  ⚠️  Href marker not found: ' + key);
+  return result;
+}
+
 function buildConfigStyles(cfg) {
   const rules = [];
   if (cfg.hero?.opacity != null) {
@@ -70,19 +77,24 @@ async function main() {
   }
   console.log('✅ Config loaded');
 
-  const keys = [
+  const socialKeys = ['contacts.telegram', 'contacts.vk', 'contacts.whatsapp', 'contacts.instagram'];
+  const plainKeys = [
     'seo.title', 'seo.description', 'seo.keywords', 'seo.ogImage',
     'fonts.googleUrl',
     'contacts.address', 'contacts.phone', 'contacts.workingHours',
-    'contacts.telegram', 'contacts.vk', 'contacts.whatsapp', 'contacts.instagram',
     'tagline.part1', 'tagline.part2',
     'gas_url',
     'analytics.google_id', 'analytics.yandex_id'
   ];
-  for (const key of keys) {
+  for (const key of plainKeys) {
     const parts = key.split('.');
     const value = cfg[parts[0]]?.[parts[1]];
     html = replaceMarker(html, key, value != null ? String(value) : '');
+  }
+  for (const key of socialKeys) {
+    const parts = key.split('.');
+    const value = cfg[parts[0]]?.[parts[1]];
+    html = replaceMarkerHref(html, key, value != null ? String(value) : '#');
   }
 
   const sectionStyles = buildSectionStyles(cfg);
