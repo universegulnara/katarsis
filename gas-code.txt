@@ -14,6 +14,20 @@ function testAuth() {
   Logger.log('✅ Доступ получен. Строк в Config: ' + data.length);
 }
 
+function testSettings() {
+  const ss = SpreadsheetApp.openById(SPREADSHEET_ID);
+  const sheet = findSheet(ss, 'Settings');
+  if (!sheet) { Logger.log('❌ Лист Settings не найден'); return; }
+  const data = sheet.getDataRange().getValues();
+  Logger.log('Строк: ' + data.length + ', Колонок: ' + (data[0] ? data[0].length : 0));
+  for (let i = 0; i < data.length; i++) {
+    Logger.log('[' + i + '] ' + JSON.stringify(data[i]));
+    if (String(data[i][0] || '').trim() === 'github_token') {
+      Logger.log('✅ github_token найден! Значение: "' + String(data[i][1] || '').trim() + '"');
+    }
+  }
+}
+
 function findSheet(ss, name) {
   const sheets = ss.getSheets();
   for (let i = 0; i < sheets.length; i++) {
