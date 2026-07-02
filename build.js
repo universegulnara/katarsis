@@ -61,6 +61,7 @@ async function main() {
     'fonts.googleUrl',
     'contacts.address', 'contacts.phone', 'contacts.workingHours',
     'contacts.telegram', 'contacts.vk', 'contacts.whatsapp',
+    'tagline.part1', 'tagline.part2',
     'gas_url',
     'analytics.google_id', 'analytics.yandex_id'
   ];
