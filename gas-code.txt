@@ -35,11 +35,9 @@ function doGet() {
       }
     }
 
-    const output = ContentService
+    return ContentService
       .createTextOutput(JSON.stringify(config))
       .setMimeType(ContentService.MimeType.JSON);
-    output.setHeaders({ 'Cache-Control': 'no-cache, no-store, must-revalidate' });
-    return output;
 
   } catch (error) {
     return ContentService
