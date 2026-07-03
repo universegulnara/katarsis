@@ -1,7 +1,7 @@
 const fs = require('fs');
 
 const GAS_URL = process.env.GAS_URL || '';
-const HTML_FILE = 'index.html';
+const FILES = ['index.html', '404.html', 'update.html', 'privacy.html'];
 
 function escReg(s) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -11,6 +11,13 @@ function replaceMarker(html, key, value) {
   const re = new RegExp(`<!--\\s*${escReg(key)}\\s*-->.*?<!--\\s*/\\s*${escReg(key)}\\s*-->`, 'gs');
   const result = html.replace(re, `<!-- ${key} -->${value}<!-- /${key} -->`);
   if (result === html) console.warn('  ⚠️  Marker not found: ' + key);
+  return result;
+}
+
+function replaceJsMarker(html, key, value) {
+  const re = new RegExp(`/\\*\\s*${escReg(key)}\\s*\\*/.*?/\\*\\s*/\\s*${escReg(key)}\\s*\\*/`, 'gs');
+  const result = html.replace(re, `/* ${key} */${value}/* /${key} */`);
+  if (result === html) console.warn('  ⚠️  JS marker not found: ' + key);
   return result;
 }
 
@@ -80,6 +87,21 @@ function buildFontVars(cfg) {
   return ':root{--font:' + body + ';--font-heading:' + heading + '}';
 }
 
+function buildDesignStyles(cfg) {
+  const vars = cfg.design || {};
+  const map = {
+    bgDark: '--bg-dark', bgDarker: '--bg-darker',
+    accentPurple: '--accent-purple', accentBlue: '--accent-blue',
+    accentPink: '--accent-pink', radius: '--radius'
+  };
+  const rules = [];
+  for (const [key, cssVar] of Object.entries(map)) {
+    if (vars[key] != null && vars[key] !== '') rules.push(cssVar + ':' + vars[key]);
+  }
+  if (rules.length === 0) return '';
+  return ':root{' + rules.join(';') + '}';
+}
+
 function buildSchema(cfg) {
   const daysMap = {
     'Пн-Вс': 'Mo-Su', 'Пн-Пт': 'Mo-Fr', 'Сб-Вс': 'Sa-Su',
@@ -88,60 +110,44 @@ function buildSchema(cfg) {
   let openingHours = '';
   if (cfg.contacts?.workingHours) {
     let h = cfg.contacts.workingHours;
-    for (const [ru, en] of Object.entries(daysMap)) {
-      h = h.replace(ru, en);
-    }
+    for (const [ru, en] of Object.entries(daysMap)) h = h.replace(ru, en);
     openingHours = h.replace(/ — /g, ' ').replace(/—/g, '-');
   }
-
+  const url = cfg.site?.url || 'https://universegulnara.github.io/katarsis/';
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    name: 'Катарсис',
+    name: cfg.content?.heroTitle || 'Катарсис',
     description: cfg.seo?.description || 'Премиальный караоке-бар',
-    url: 'https://universegulnara.github.io/katarsis/',
+    url: url,
     telephone: cfg.contacts?.phone || '',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Казань',
-      streetAddress: cfg.contacts?.address || '',
-      addressCountry: 'RU'
-    },
-    image: cfg.seo?.ogImage || 'https://universegulnara.github.io/katarsis/assets/og-image.png'
+    address: { '@type': 'PostalAddress', addressLocality: 'Казань', streetAddress: cfg.contacts?.address || '', addressCountry: 'RU' },
+    image: (url.endsWith('/') ? url.slice(0, -1) : url) + '/assets/og-image.png'
   };
   if (openingHours) schema.openingHours = openingHours;
-
   return JSON.stringify(schema, null, 2);
 }
 
-async function main() {
-  if (!GAS_URL) {
-    console.error('❌ GAS_URL not set');
-    process.exit(1);
-  }
+function buildConfigJson(cfg) {
+  const o = {
+    gasUrl: cfg.gas_url || '',
+    ageRedirectUrl: cfg.content?.ageRedirectUrl || '',
+    eventAlert: cfg.content?.eventAlert || '',
+    formSending: cfg.content?.formSending || '',
+    formError: cfg.content?.formError || ''
+  };
+  return JSON.stringify(o);
+}
 
-  console.log('📖 Reading ' + HTML_FILE + '…');
-  let html = fs.readFileSync(HTML_FILE, 'utf-8');
+async function processFile(file, cfg) {
+  console.log('📖 ' + file + '…');
+  let html = fs.readFileSync(file, 'utf-8');
 
-  console.log('🌐 Fetching config from ' + GAS_URL + '…');
-  const res = await fetch(GAS_URL + '?t=' + Date.now());
-  if (!res.ok) {
-    console.error('❌ HTTP ' + res.status);
-    process.exit(1);
-  }
-  const cfg = await res.json();
-
-  if (cfg.error) {
-    console.error('❌ Config error: ' + cfg.error);
-    process.exit(1);
-  }
-  console.log('✅ Config loaded');
-
-  const socialKeys = ['contacts.telegram', 'contacts.vk', 'contacts.whatsapp', 'contacts.instagram'];
   const contentKeys = [
     'content.ageText', 'content.ageQuestion', 'content.ageYes', 'content.ageNo',
+    'content.ageRedirectUrl', 'content.eventAlert',
     'content.navHome', 'content.navEvents', 'content.navActivities', 'content.navFranchise', 'content.navContacts',
-    'content.heroBadge', 'content.heroScroll',
+    'content.heroBadge', 'content.heroScroll', 'content.heroTitle',
     'content.btnFeedback', 'content.btnBooking', 'content.btnFranchise', 'content.btnLearnMore',
     'content.btnSendFeedback', 'content.btnSendBooking', 'content.btnSendFranchise',
     'content.eventsTitle', 'content.eventsSubtitle', 'content.eventBadge',
@@ -156,12 +162,17 @@ async function main() {
     'content.adv3Title', 'content.adv3Desc', 'content.adv4Title', 'content.adv4Desc',
     'content.footerNavTitle', 'content.footerContactsTitle', 'content.footerCopyright',
     'content.footerLinkHome', 'content.footerLinkEvents', 'content.footerLinkActivities', 'content.footerLinkFranchise',
+    'content.footerYear',
     'content.modalFeedbackTitle', 'content.modalBookingTitle', 'content.modalFranchiseTitle',
     'content.formName', 'content.formPhone', 'content.formMessage', 'content.formDate',
     'content.formGuests', 'content.formNotes', 'content.formEmail', 'content.formCity',
     'content.formRating', 'content.formConsent', 'content.formConsentLink',
-    'content.successFeedback', 'content.successBooking', 'content.successFranchise'
+    'content.formSending', 'content.formError',
+    'content.successFeedback', 'content.successBooking', 'content.successFranchise',
+    'content.logoAlt',
+    'content.404top', 'content.404title', 'content.404text', 'content.404sub', 'content.404btn'
   ];
+
   const plainKeys = [
     'contacts.address', 'contacts.phone', 'contacts.workingHours',
     'tagline.part1', 'tagline.part2',
@@ -170,6 +181,9 @@ async function main() {
     'socials.instagram_note',
     ...contentKeys
   ];
+
+  const socialKeys = ['contacts.telegram', 'contacts.vk', 'contacts.whatsapp', 'contacts.instagram'];
+
   for (const key of plainKeys) {
     const parts = key.split('.');
     const value = cfg[parts[0]]?.[parts[1]];
@@ -191,16 +205,57 @@ async function main() {
   const fontsUrl = cfg.fonts?.googleUrl;
   html = replaceMarkerAttr(html, 'fonts.googleUrl', fontsUrl != null ? String(fontsUrl) : '', 'href');
 
+  const faviconUrl = cfg.content?.faviconUrl;
+  if (faviconUrl != null && faviconUrl !== '') {
+    html = replaceMarkerAttr(html, 'content.faviconUrl', faviconUrl, 'href');
+  }
+
   const sectionStyles = buildSectionStyles(cfg);
   const fontVars = buildFontVars(cfg);
   const configStyles = buildConfigStyles(cfg);
-  html = replaceMarker(html, 'dynamic-styles', [fontVars, configStyles, sectionStyles].filter(Boolean).join(' '));
+  const designStyles = buildDesignStyles(cfg);
+  const allStyles = [fontVars, configStyles, sectionStyles, designStyles].filter(Boolean).join(' ');
+  html = replaceMarker(html, 'dynamic-styles', allStyles);
 
   const schemaJson = buildSchema(cfg);
   html = replaceMarker(html, 'seo.schema', schemaJson);
 
-  fs.writeFileSync(HTML_FILE, html, 'utf-8');
-  console.log('✅ Saved to ' + HTML_FILE);
+  const configJson = buildConfigJson(cfg);
+  html = replaceJsMarker(html, 'configJson', configJson);
+
+  const siteUrl = cfg.site?.url || 'https://universegulnara.github.io/katarsis/';
+  const canonical = siteUrl.endsWith('/') ? siteUrl.slice(0, -1) : siteUrl;
+  html = replaceMarkerAttr(html, 'site.canonical', canonical + (file === 'index.html' ? '/' : '/' + file), 'href');
+
+  const ogUrl = cfg.seo?.ogImage || canonical + '/assets/og-image.png';
+  html = replaceMarkerAttr(html, 'seo.ogImage', ogUrl, 'content');
+
+  fs.writeFileSync(file, html, 'utf-8');
+  console.log('  ✅ Saved');
+}
+
+async function main() {
+  if (!GAS_URL) {
+    console.error('❌ GAS_URL not set');
+    process.exit(1);
+  }
+
+  console.log('🌐 Fetching config…');
+  const res = await fetch(GAS_URL + '?t=' + Date.now());
+  if (!res.ok) {
+    console.error('❌ HTTP ' + res.status);
+    process.exit(1);
+  }
+  const cfg = await res.json();
+  if (cfg.error) {
+    console.error('❌ Config error: ' + cfg.error);
+    process.exit(1);
+  }
+  console.log('✅ Config loaded');
+
+  for (const file of FILES) {
+    await processFile(file, cfg);
+  }
 }
 
 main().catch(err => {

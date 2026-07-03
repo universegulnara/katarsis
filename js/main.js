@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('age-verify').classList.add('hidden');
       initAOS();
     } else {
-      window.location.href = 'https://yandex.ru';
+      window.location.href = window.__CONFIG__?.ageRedirectUrl || 'https://yandex.ru';
     }
   };
 
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.event-card .btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.stopPropagation();
-      alert('Подробности мероприятия скоро появятся. Следите за обновлениями!');
+      alert(window.__CONFIG__?.eventAlert || 'Подробности мероприятия скоро появятся. Следите за обновлениями!');
     });
   });
 

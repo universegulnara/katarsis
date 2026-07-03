@@ -1,4 +1,4 @@
-const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz6eDDMiDwo7mT1AAPs6SXNaaDkZEGCL55EV4HmczZqMr7sSOKU3w4XYPNn4ooiJcRK/exec';
+const GOOGLE_SCRIPT_URL = window.__CONFIG__?.gasUrl || 'https://script.google.com/macros/s/AKfycbz6eDDMiDwo7mT1AAPs6SXNaaDkZEGCL55EV4HmczZqMr7sSOKU3w4XYPNn4ooiJcRK/exec';
 
 function getRatingValue() {
   const stars = document.querySelectorAll('.rating__star');
@@ -26,7 +26,7 @@ async function submitFeedback(formId, successId, data) {
 
   const btn = form.querySelector('.btn');
   const btnText = btn.innerHTML;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Отправка...';
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ' + (window.__CONFIG__?.formSending || 'Отправка...');
   btn.disabled = true;
 
   try {
@@ -56,7 +56,7 @@ async function submitFeedback(formId, successId, data) {
     }, 3000);
 
   } catch (error) {
-    btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Ошибка. Попробуйте ещё раз';
+    btn.innerHTML = '<i class="fas fa-exclamation-triangle"></i> ' + (window.__CONFIG__?.formError || 'Ошибка. Попробуйте ещё раз');
     btn.disabled = false;
     console.error('Feedback error:', error);
     setTimeout(() => { btn.innerHTML = btnText; }, 3000);

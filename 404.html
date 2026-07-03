@@ -3,23 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 — Страница не найдена | Катарсис</title>
+  <!-- seo.title --><title>404 — Страница не найдена | Катарсис</title><!-- /seo.title -->
   <meta name="robots" content="noindex, follow">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=AR+One+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- site.canonical --><link rel="canonical" href="https://universegulnara.github.io/katarsis/404.html"><!-- /site.canonical -->
+  <link rel="icon" type="image/png" href="<!-- content.faviconUrl -->assets/favicon.png<!-- /content.faviconUrl -->">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
-      font-family: 'AR One Sans', 'Inter', sans-serif;
+      font-family: 'Inter', sans-serif;
       background: #0a0a1a;
       color: #f0eeff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       min-height: 100vh;
-      text-align: center;
       padding: 40px 24px;
     }
-    .container { max-width: 480px; }
+    .container {
+      position: absolute;
+      left: 50%;
+      top: <!-- content.404top -->50<!-- /content.404top -->%;
+      transform: translate(-50%, -50%);
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+    }
+    .hero-img {
+      display: block;
+      margin: 0 auto 24px;
+      max-width: 200px;
+      width: 60%;
+      opacity: 0.4;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-16px); }
+    }
     h1 {
       font-size: 80px;
       font-weight: 700;
@@ -43,7 +61,7 @@
       padding: 16px 36px;
       border: none;
       border-radius: 16px;
-      font-family: 'AR One Sans', 'Inter', sans-serif;
+      font-family: 'Inter', sans-serif;
       font-size: 15px;
       font-weight: 600;
       cursor: pointer;
@@ -60,10 +78,11 @@
 </head>
 <body>
   <div class="container">
-    <h1>404</h1>
-    <p>Такой страницы нет</p>
-    <p class="sub">Возможно, она была перемещена или удалена</p>
-    <a href="index.html" class="btn"><i class="fas fa-arrow-left"></i> На главную</a>
+    <img src="assets/hero-image.png" alt="" class="hero-img">
+    <h1><!-- content.404title -->404<!-- /content.404title --></h1>
+    <p><!-- content.404text -->Такой страницы нет<!-- /content.404text --></p>
+    <p class="sub"><!-- content.404sub -->Возможно, она была перемещена или удалена<!-- /content.404sub --></p>
+    <a href="index.html" class="btn"><i class="fas fa-arrow-left"></i> <!-- content.404btn -->На главную<!-- /content.404btn --></a>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
 </body>

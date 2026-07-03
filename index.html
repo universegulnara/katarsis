@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="canonical" href="https://universegulnara.github.io/katarsis/">
+  <!-- site.canonical --><link rel="canonical" href="https://universegulnara.github.io/katarsis/"><!-- /site.canonical -->
   <meta name="robots" content="index, follow">
   <title><!-- seo.title -->Франшиза Катарсис — премиальный караоке-бар в вашем городе<!-- /seo.title --></title>
   <meta id="seo-desc" name="description" content="<!-- seo.description -->Атмосферный караоке-бар с неоновым светом и стеклянным интерьером<!-- /seo.description -->">
   <!-- seo.keywords --><meta id="seo-keys" name="keywords" content=""><!-- /seo.keywords -->
   <meta id="seo-og" property="og:image" content="<!-- seo.ogImage -->https://universegulnara.github.io/katarsis/assets/og-image.png<!-- /seo.ogImage -->">
-  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="icon" type="image/png" href="<!-- content.faviconUrl -->assets/favicon.png<!-- /content.faviconUrl -->">
   <!-- fonts.googleUrl --><link id="google-fonts" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=AR+One+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"><!-- /fonts.googleUrl -->
   <script type="application/ld+json"><!-- seo.schema -->{"@context":"https://schema.org","@type":"LocalBusiness","name":"Катарсис","description":"Премиальный караоке-бар в Казани","url":"https://universegulnara.github.io/katarsis/","telephone":"+7 (843) 111-11-11","address":{"@type":"PostalAddress","addressLocality":"Казань","streetAddress":"ул. Астрономическая 9","addressCountry":"RU"},"openingHours":"Mo-Su 21:00-04:00","image":"https://universegulnara.github.io/katarsis/assets/og-image.png"}<!-- /seo.schema --></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -40,7 +40,7 @@
 <div id="age-verify" class="age-verify">
   <div class="age-verify__card">
     <div class="age-verify__logo">
-      <img src="assets/logo.png" alt="Катарсис" style="max-width: 240px; height: auto;">
+      <img src="assets/logo.png" alt="<!-- content.logoAlt -->Катарсис<!-- /content.logoAlt -->" style="max-width: 240px; height: auto;">
     </div>
     <p class="age-verify__text"><!-- content.ageText -->Чтобы продолжить, подтвердите ваш возраст<!-- /content.ageText --></p>
     <p class="age-verify__question"><!-- content.ageQuestion -->Вам уже исполнилось 18 лет?<!-- /content.ageQuestion --></p>
@@ -54,7 +54,7 @@
 <nav class="navbar" id="navbar">
   <div class="navbar__inner">
     <a href="#" class="navbar__logo">
-      <img src="assets/logo.png" alt="Катарсис" height="36" style="height: 36px;">
+      <img src="assets/logo.png" alt="<!-- content.logoAlt -->Катарсис<!-- /content.logoAlt -->" height="36" style="height: 36px;">
     </a>
     <div class="navbar__links" id="navLinks">
       <a href="#hero" class="navbar__link"><!-- content.navHome -->Главная<!-- /content.navHome --></a>
@@ -88,7 +88,7 @@
   <div class="hero__content">
     <div class="hero__badge" data-aos><!-- content.heroBadge -->Караоке-бар<!-- /content.heroBadge --></div>
     <h1 class="hero__title" data-aos>
-      <span class="hero__title-line hero__title-line--main">КАТАРСИС</span>
+      <span class="hero__title-line hero__title-line--main"><!-- content.heroTitle -->КАТАРСИС<!-- /content.heroTitle --></span>
       <span class="hero__title-line hero__title-line--sub"><!-- tagline_part1 -->Живые эмоции.<!-- /tagline_part1 --></span>
       <span class="hero__title-line hero__title-line--sub"><!-- tagline_part2 -->Настоящие люди<!-- /tagline_part2 --></span>
     </h1>
@@ -229,7 +229,7 @@
   <div class="footer__inner">
     <div class="footer__col footer__col--brand">
       <div class="footer__logo">
-        <img src="assets/logo.png" alt="Катарсис" height="32" style="height: 32px;">
+        <img src="assets/logo.png" alt="<!-- content.logoAlt -->Катарсис<!-- /content.logoAlt -->" height="32" style="height: 32px;">
       </div>
       <p class="footer__tagline"><!-- tagline_part1 -->Живые эмоции.<!-- /tagline_part1 --> <!-- tagline_part2 -->Настоящие люди<!-- /tagline_part2 --></p>
       <div class="footer__socials">
@@ -254,7 +254,7 @@
     </div>
   </div>
   <div class="footer__bottom">
-    <p>2026 <a href="update.html" class="footer__copy-link">©</a> <!-- content.footerCopyright -->Бар «Катарсис». Все права защищены.<!-- /content.footerCopyright --></p>
+    <p><!-- content.footerYear -->2026<!-- /content.footerYear --> <a href="update.html" class="footer__copy-link">©</a> <!-- content.footerCopyright -->Бар «Катарсис». Все права защищены.<!-- /content.footerCopyright --></p>
   </div>
 </footer>
 
@@ -364,20 +364,7 @@
     </div>
   </div>
 </div>
-<script>
-const CONFIG_URL = '<!-- gas_url --><!-- /gas_url -->';
-
-document.addEventListener('DOMContentLoaded', () => {
-  if (!CONFIG_URL) return;
-  fetch(CONFIG_URL + '?t=' + Date.now())
-    .then(r => r.json())
-    .then(cfg => {
-      if (cfg.error) return;
-      if (cfg.fonts?.googleUrl) document.getElementById('google-fonts').href = cfg.fonts.googleUrl;
-    })
-    .catch(() => {});
-});
-</script>
+<script>window.__CONFIG__=/* configJson */{}/* /configJson */;</script>
 <script src="js/particles.js"></script>
 <script src="js/main.js"></script>
 <script src="js/feedback.js"></script>
