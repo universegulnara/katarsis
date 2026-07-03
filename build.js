@@ -138,12 +138,37 @@ async function main() {
   console.log('✅ Config loaded');
 
   const socialKeys = ['contacts.telegram', 'contacts.vk', 'contacts.whatsapp', 'contacts.instagram'];
+  const contentKeys = [
+    'content.ageText', 'content.ageQuestion', 'content.ageYes', 'content.ageNo',
+    'content.navHome', 'content.navEvents', 'content.navActivities', 'content.navFranchise', 'content.navContacts',
+    'content.heroBadge', 'content.heroScroll',
+    'content.btnFeedback', 'content.btnBooking', 'content.btnFranchise', 'content.btnLearnMore',
+    'content.btnSendFeedback', 'content.btnSendBooking', 'content.btnSendFranchise',
+    'content.eventsTitle', 'content.eventsSubtitle', 'content.eventBadge',
+    'content.event1Title', 'content.event1Date', 'content.event1Desc',
+    'content.event2Title', 'content.event2Date', 'content.event2Desc',
+    'content.activitiesTitle', 'content.activitiesSubtitle',
+    'content.act1Title', 'content.act1Desc', 'content.act2Title', 'content.act2Desc',
+    'content.act3Title', 'content.act3Desc', 'content.act4Title', 'content.act4Desc',
+    'content.act5Title', 'content.act5Desc', 'content.act6Title', 'content.act6Desc',
+    'content.advantagesTitle', 'content.advantagesSubtitle',
+    'content.adv1Title', 'content.adv1Desc', 'content.adv2Title', 'content.adv2Desc',
+    'content.adv3Title', 'content.adv3Desc', 'content.adv4Title', 'content.adv4Desc',
+    'content.footerNavTitle', 'content.footerContactsTitle', 'content.footerCopyright',
+    'content.footerLinkHome', 'content.footerLinkEvents', 'content.footerLinkActivities', 'content.footerLinkFranchise',
+    'content.modalFeedbackTitle', 'content.modalBookingTitle', 'content.modalFranchiseTitle',
+    'content.formName', 'content.formPhone', 'content.formMessage', 'content.formDate',
+    'content.formGuests', 'content.formNotes', 'content.formEmail', 'content.formCity',
+    'content.formRating', 'content.formConsent', 'content.formConsentLink',
+    'content.successFeedback', 'content.successBooking', 'content.successFranchise'
+  ];
   const plainKeys = [
     'contacts.address', 'contacts.phone', 'contacts.workingHours',
     'tagline.part1', 'tagline.part2',
     'gas_url',
     'analytics.google_id', 'analytics.yandex_id',
-    'socials.instagram_note'
+    'socials.instagram_note',
+    ...contentKeys
   ];
   for (const key of plainKeys) {
     const parts = key.split('.');

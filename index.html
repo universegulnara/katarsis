@@ -42,11 +42,11 @@
     <div class="age-verify__logo">
       <img src="assets/logo.png" alt="Катарсис" style="max-width: 240px; height: auto;">
     </div>
-    <p class="age-verify__text">Чтобы продолжить, подтвердите ваш возраст</p>
-    <p class="age-verify__question">Вам уже исполнилось 18 лет?</p>
+    <p class="age-verify__text"><!-- content.ageText -->Чтобы продолжить, подтвердите ваш возраст<!-- /content.ageText --></p>
+    <p class="age-verify__question"><!-- content.ageQuestion -->Вам уже исполнилось 18 лет?<!-- /content.ageQuestion --></p>
     <div class="age-verify__buttons">
-      <button class="btn btn--primary" onclick="verifyAge(true)">Да, мне есть 18</button>
-      <button class="btn btn--outline" onclick="verifyAge(false)">Нет, мне пока рано</button>
+      <button class="btn btn--primary" onclick="verifyAge(true)"><!-- content.ageYes -->Да, мне есть 18<!-- /content.ageYes --></button>
+      <button class="btn btn--outline" onclick="verifyAge(false)"><!-- content.ageNo -->Нет, мне пока рано<!-- /content.ageNo --></button>
     </div>
   </div>
 </div>
@@ -57,11 +57,11 @@
       <img src="assets/logo.png" alt="Катарсис" height="36" style="height: 36px;">
     </a>
     <div class="navbar__links" id="navLinks">
-      <a href="#hero" class="navbar__link">Главная</a>
-      <a href="#events" class="navbar__link">Скоро</a>
-      <a href="#activities" class="navbar__link">Активности</a>
-      <a href="#advantages" class="navbar__link">Франшиза</a>
-      <a href="#footer" class="navbar__link">Контакты</a>
+      <a href="#hero" class="navbar__link"><!-- content.navHome -->Главная<!-- /content.navHome --></a>
+      <a href="#events" class="navbar__link"><!-- content.navEvents -->Скоро<!-- /content.navEvents --></a>
+      <a href="#activities" class="navbar__link"><!-- content.navActivities -->Активности<!-- /content.navActivities --></a>
+      <a href="#advantages" class="navbar__link"><!-- content.navFranchise -->Франшиза<!-- /content.navFranchise --></a>
+      <a href="#footer" class="navbar__link"><!-- content.navContacts -->Контакты<!-- /content.navContacts --></a>
       <div class="navbar__bottom">
         <p class="navbar__tagline"><!-- tagline_part1 -->Живые эмоции.<!-- /tagline_part1 --> <!-- tagline_part2 -->Настоящие люди<!-- /tagline_part2 --></p>
         <div class="navbar__socials">
@@ -86,7 +86,7 @@
   <div class="smoke smoke--2"></div>
   <div class="smoke smoke--3"></div>
   <div class="hero__content">
-    <div class="hero__badge" data-aos>Караоке-бар</div>
+    <div class="hero__badge" data-aos><!-- content.heroBadge -->Караоке-бар<!-- /content.heroBadge --></div>
     <h1 class="hero__title" data-aos>
       <span class="hero__title-line hero__title-line--main">КАТАРСИС</span>
       <span class="hero__title-line hero__title-line--sub"><!-- tagline_part1 -->Живые эмоции.<!-- /tagline_part1 --></span>
@@ -94,17 +94,17 @@
     </h1>
     <div class="hero__buttons" data-aos>
       <button class="btn btn--glass" onclick="openModal('feedback')" data-section="feedback">
-        <i class="fas fa-star"></i> Оставить отзыв владельцу
+        <i class="fas fa-star"></i> <!-- content.btnFeedback -->Оставить отзыв владельцу<!-- /content.btnFeedback -->
       </button>
       <button class="btn btn--glass" onclick="openModal('booking')" data-section="booking">
-        <i class="fas fa-utensils"></i> Забронировать банкет
+        <i class="fas fa-utensils"></i> <!-- content.btnBooking -->Забронировать банкет<!-- /content.btnBooking -->
       </button>
       <button class="btn btn--glass" onclick="openModal('franchise')" data-section="franchise">
-        <i class="fas fa-chart-line"></i> Открыть франшизу
+        <i class="fas fa-chart-line"></i> <!-- content.btnFranchise -->Открыть франшизу<!-- /content.btnFranchise -->
       </button>
     </div>
     <div class="hero__scroll" data-aos>
-      <span>Листайте вниз</span>
+      <span><!-- content.heroScroll -->Листайте вниз<!-- /content.heroScroll --></span>
       <div class="hero__scroll-arrow"></div>
     </div>
   </div>
@@ -112,19 +112,19 @@
 
 <section class="section events" id="events" data-section="events">
   <div class="section__header" data-aos>
-    <h2 class="section__title">Что скоро планируется</h2>
-    <p class="section__subtitle">Следите за нашими событиями</p>
+    <h2 class="section__title"><!-- content.eventsTitle -->Что скоро планируется<!-- /content.eventsTitle --></h2>
+    <p class="section__subtitle"><!-- content.eventsSubtitle -->Следите за нашими событиями<!-- /content.eventsSubtitle --></p>
   </div>
 
   <div class="event-card event-card--1" data-aos>
     <div class="event-card__bg" data-speed="0.15" style="background-image: url('assets/event1.png');"></div>
     <div class="event-card__overlay"></div>
     <div class="event-card__content">
-      <span class="event-card__badge">Скоро</span>
-      <h3 class="event-card__title">Новогодняя ночь в Катарсисе</h3>
-      <p class="event-card__date">31 декабря 2026</p>
-      <p class="event-card__desc">Грандиозная вечеринка с караоке, коктейлями и живой музыкой. Встречайте 2027 год вместе с нами!</p>
-      <button class="btn btn--primary"><i class="fas fa-ticket-alt"></i> Узнать больше</button>
+      <span class="event-card__badge"><!-- content.eventBadge -->Скоро<!-- /content.eventBadge --></span>
+      <h3 class="event-card__title"><!-- content.event1Title -->Новогодняя ночь в Катарсисе<!-- /content.event1Title --></h3>
+      <p class="event-card__date"><!-- content.event1Date -->31 декабря 2026<!-- /content.event1Date --></p>
+      <p class="event-card__desc"><!-- content.event1Desc -->Грандиозная вечеринка с караоке, коктейлями и живой музыкой. Встречайте 2027 год вместе с нами!<!-- /content.event1Desc --></p>
+      <button class="btn btn--primary"><i class="fas fa-ticket-alt"></i> <!-- content.btnLearnMore -->Узнать больше<!-- /content.btnLearnMore --></button>
     </div>
   </div>
 
@@ -132,58 +132,58 @@
     <div class="event-card__bg" data-speed="0.15" style="background-image: url('assets/event2.png');"></div>
     <div class="event-card__overlay"></div>
     <div class="event-card__content">
-      <span class="event-card__badge">Скоро</span>
-      <h3 class="event-card__title">Фестиваль коктейлей</h3>
-      <p class="event-card__date">14 февраля 2027</p>
-      <p class="event-card__desc">Авторские коктейли от лучших барменов города. Дегустации, мастер-классы и специальное меню.</p>
-      <button class="btn btn--primary"><i class="fas fa-ticket-alt"></i> Узнать больше</button>
+      <span class="event-card__badge"><!-- content.eventBadge -->Скоро<!-- /content.eventBadge --></span>
+      <h3 class="event-card__title"><!-- content.event2Title -->Фестиваль коктейлей<!-- /content.event2Title --></h3>
+      <p class="event-card__date"><!-- content.event2Date -->14 февраля 2027<!-- /content.event2Date --></p>
+      <p class="event-card__desc"><!-- content.event2Desc -->Авторские коктейли от лучших барменов города. Дегустации, мастер-классы и специальное меню.<!-- /content.event2Desc --></p>
+      <button class="btn btn--primary"><i class="fas fa-ticket-alt"></i> <!-- content.btnLearnMore -->Узнать больше<!-- /content.btnLearnMore --></button>
     </div>
   </div>
 </section>
 
 <section class="section activities" id="activities" data-section="activities">
   <div class="section__header" data-aos>
-    <h2 class="section__title">Наши активности</h2>
-    <p class="section__subtitle">Каждый найдёт развлечение по душе</p>
+    <h2 class="section__title"><!-- content.activitiesTitle -->Наши активности<!-- /content.activitiesTitle --></h2>
+    <p class="section__subtitle"><!-- content.activitiesSubtitle -->Каждый найдёт развлечение по душе<!-- /content.activitiesSubtitle --></p>
   </div>
   <div class="activities__grid">
     <div class="activity-card" data-aos>
       <div class="activity-card__icon"><i class="fas fa-microphone-alt"></i></div>
-      <h3 class="activity-card__title">Караоке</h3>
-      <p class="activity-card__desc">Пойте любимые хиты в компании друзей. Профессиональное звуковое оборудование.</p>
+      <h3 class="activity-card__title"><!-- content.act1Title -->Караоке<!-- /content.act1Title --></h3>
+      <p class="activity-card__desc"><!-- content.act1Desc -->Пойте любимые хиты в компании друзей. Профессиональное звуковое оборудование.<!-- /content.act1Desc --></p>
     </div>
     <div class="activity-card" data-aos>
       <div class="activity-card__icon"><i class="fas fa-cocktail"></i></div>
-      <h3 class="activity-card__title">Авторские коктейли</h3>
-      <p class="activity-card__desc">Уникальная коктейльная карта от наших барменов. Каждый напиток — произведение искусства.</p>
+      <h3 class="activity-card__title"><!-- content.act2Title -->Авторские коктейли<!-- /content.act2Title --></h3>
+      <p class="activity-card__desc"><!-- content.act2Desc -->Уникальная коктейльная карта от наших барменов. Каждый напиток — произведение искусства.<!-- /content.act2Desc --></p>
     </div>
     <div class="activity-card" data-aos>
       <div class="activity-card__icon"><i class="fas fa-wind"></i></div>
-      <h3 class="activity-card__title">Кальянная карта</h3>
-      <p class="activity-card__desc">Премиальные табаки и авторские миксы. Расслабляющая атмосфера для ценителей.</p>
+      <h3 class="activity-card__title"><!-- content.act3Title -->Кальянная карта<!-- /content.act3Title --></h3>
+      <p class="activity-card__desc"><!-- content.act3Desc -->Премиальные табаки и авторские миксы. Расслабляющая атмосфера для ценителей.<!-- /content.act3Desc --></p>
     </div>
     <div class="activity-card" data-aos>
       <div class="activity-card__icon"><i class="fas fa-brain"></i></div>
-      <h3 class="activity-card__title">Квизы и игры</h3>
-      <p class="activity-card__desc">Интеллектуальные игры, настолки и квизы каждый четверг. Призы и хорошее настроение.</p>
+      <h3 class="activity-card__title"><!-- content.act4Title -->Квизы и игры<!-- /content.act4Title --></h3>
+      <p class="activity-card__desc"><!-- content.act4Desc -->Интеллектуальные игры, настолки и квизы каждый четверг. Призы и хорошее настроение.<!-- /content.act4Desc --></p>
     </div>
     <div class="activity-card" data-aos>
       <div class="activity-card__icon"><i class="fas fa-music"></i></div>
-      <h3 class="activity-card__title">Живая музыка</h3>
-      <p class="activity-card__desc">Выступления лучших музыкантов города. Джаз, соул, поп-рок и импровизации.</p>
+      <h3 class="activity-card__title"><!-- content.act5Title -->Живая музыка<!-- /content.act5Title --></h3>
+      <p class="activity-card__desc"><!-- content.act5Desc -->Выступления лучших музыкантов города. Джаз, соул, поп-рок и импровизации.<!-- /content.act5Desc --></p>
     </div>
     <div class="activity-card" data-aos>
       <div class="activity-card__icon"><i class="fas fa-glass-cheers"></i></div>
-      <h3 class="activity-card__title">Частные мероприятия</h3>
-      <p class="activity-card__desc">Дни рождения, корпоративы, мальчишники — организуем праздник под ключ.</p>
+      <h3 class="activity-card__title"><!-- content.act6Title -->Частные мероприятия<!-- /content.act6Title --></h3>
+      <p class="activity-card__desc"><!-- content.act6Desc -->Дни рождения, корпоративы, мальчишники — организуем праздник под ключ.<!-- /content.act6Desc --></p>
     </div>
   </div>
 </section>
 
 <section class="section advantages" id="advantages">
   <div class="section__header" data-aos>
-    <h2 class="section__title">Преимущества для бизнеса и франчайзи</h2>
-    <p class="section__subtitle">Почему выбирают «Катарсис»</p>
+    <h2 class="section__title"><!-- content.advantagesTitle -->Преимущества для бизнеса и франчайзи<!-- /content.advantagesTitle --></h2>
+    <p class="section__subtitle"><!-- content.advantagesSubtitle -->Почему выбирают «Катарсис»<!-- /content.advantagesSubtitle --></p>
   </div>
   <div class="advantages__grid">
     <div class="advantage-card" data-aos>
@@ -192,8 +192,8 @@
         <span class="advantage-card__number" data-count="40">0</span>
         <span class="advantage-card__suffix">%</span>
       </div>
-      <h3 class="advantage-card__title">Снижение затрат</h3>
-      <p class="advantage-card__desc">Резкое сокращение затратной части за счёт оптимизации персонала</p>
+      <h3 class="advantage-card__title"><!-- content.adv1Title -->Снижение затрат<!-- /content.adv1Title --></h3>
+      <p class="advantage-card__desc"><!-- content.adv1Desc -->Резкое сокращение затратной части за счёт оптимизации персонала<!-- /content.adv1Desc --></p>
     </div>
     <div class="advantage-card" data-aos>
       <div class="advantage-card__icon"><i class="fas fa-percent"></i></div>
@@ -201,8 +201,8 @@
         <span class="advantage-card__number" data-count="95">0</span>
         <span class="advantage-card__suffix">%</span>
       </div>
-      <h3 class="advantage-card__title">Рентабельность</h3>
-      <p class="advantage-card__desc">Максимальная монетизация каждого квадратного метра</p>
+      <h3 class="advantage-card__title"><!-- content.adv2Title -->Рентабельность<!-- /content.adv2Title --></h3>
+      <p class="advantage-card__desc"><!-- content.adv2Desc -->Максимальная монетизация каждого квадратного метра<!-- /content.adv2Desc --></p>
     </div>
     <div class="advantage-card" data-aos>
       <div class="advantage-card__icon"><i class="fas fa-shield-alt"></i></div>
@@ -210,8 +210,8 @@
         <span class="advantage-card__number" data-count="100">0</span>
         <span class="advantage-card__suffix">%</span>
       </div>
-      <h3 class="advantage-card__title">Стабильность</h3>
-      <p class="advantage-card__desc">Бизнес не завязан на единичных «узких» специалистах</p>
+      <h3 class="advantage-card__title"><!-- content.adv3Title -->Стабильность<!-- /content.adv3Title --></h3>
+      <p class="advantage-card__desc"><!-- content.adv3Desc -->Бизнес не завязан на единичных «узких» специалистах<!-- /content.adv3Desc --></p>
     </div>
     <div class="advantage-card" data-aos>
       <div class="advantage-card__icon"><i class="fas fa-chart-bar"></i></div>
@@ -219,8 +219,8 @@
         <span class="advantage-card__number" data-count="3">0</span>
         <span class="advantage-card__suffix">x</span>
       </div>
-      <h3 class="advantage-card__title">Высокая прибыль</h3>
-      <p class="advantage-card__desc">Сочетание караоке-формата и эффективного управления ресурсами</p>
+      <h3 class="advantage-card__title"><!-- content.adv4Title -->Высокая прибыль<!-- /content.adv4Title --></h3>
+      <p class="advantage-card__desc"><!-- content.adv4Desc -->Сочетание караоке-формата и эффективного управления ресурсами<!-- /content.adv4Desc --></p>
     </div>
   </div>
 </section>
@@ -240,21 +240,21 @@
       </div>
     </div>
     <div class="footer__col">
-      <h4 class="footer__title">Навигация</h4>
-      <a href="#hero" class="footer__link">Главная</a>
-      <a href="#events" class="footer__link">Скоро</a>
-      <a href="#activities" class="footer__link">Активности</a>
-      <a href="#advantages" class="footer__link">Франшиза</a>
+      <h4 class="footer__title"><!-- content.footerNavTitle -->Навигация<!-- /content.footerNavTitle --></h4>
+      <a href="#hero" class="footer__link"><!-- content.footerLinkHome -->Главная<!-- /content.footerLinkHome --></a>
+      <a href="#events" class="footer__link"><!-- content.footerLinkEvents -->Скоро<!-- /content.footerLinkEvents --></a>
+      <a href="#activities" class="footer__link"><!-- content.footerLinkActivities -->Активности<!-- /content.footerLinkActivities --></a>
+      <a href="#advantages" class="footer__link"><!-- content.footerLinkFranchise -->Франшиза<!-- /content.footerLinkFranchise --></a>
     </div>
     <div class="footer__col">
-      <h4 class="footer__title">Контакты</h4>
+      <h4 class="footer__title"><!-- content.footerContactsTitle -->Контакты<!-- /content.footerContactsTitle --></h4>
       <p class="footer__text"><i class="fas fa-map-marker-alt"></i> <span id="contact-address"><!-- contacts.address -->ул. Астрономическая 9 Казань<!-- /contacts.address --></span></p>
       <p class="footer__text"><i class="fas fa-phone"></i> <span id="contact-phone"><!-- contacts.phone -->+7 (843) 111-11-11<!-- /contacts.phone --></span></p>
       <p class="footer__text"><i class="fas fa-clock"></i> <span id="contact-hours"><!-- contacts.workingHours -->Пн-Вс: 21:00 — 04:00<!-- /contacts.workingHours --></span></p>
     </div>
   </div>
   <div class="footer__bottom">
-    <p>2026 <a href="update.html" class="footer__copy-link">©</a> Бар «Катарсис». Все права защищены.</p>
+    <p>2026 <a href="update.html" class="footer__copy-link">©</a> <!-- content.footerCopyright -->Бар «Катарсис». Все права защищены.<!-- /content.footerCopyright --></p>
   </div>
 </footer>
 
@@ -262,19 +262,19 @@
   <div class="modal__overlay" onclick="closeModal('feedback')"></div>
   <div class="modal__card">
     <button class="modal__close" onclick="closeModal('feedback')">&times;</button>
-    <h3 class="modal__title">✉️ Оставить отзыв владельцу</h3>
+    <h3 class="modal__title"><!-- content.modalFeedbackTitle -->✉️ Оставить отзыв владельцу<!-- /content.modalFeedbackTitle --></h3>
     <form class="feedback-form" id="feedbackForm">
       <div class="form-group">
-        <input type="text" class="form-input" id="fb-name" placeholder="Ваше имя" required>
+        <input type="text" class="form-input" id="fb-name" placeholder="<!-- content.formName -->Ваше имя<!-- /content.formName -->" required>
       </div>
       <div class="form-group">
-        <input type="tel" class="form-input" id="fb-phone" placeholder="Ваш телефон" required>
+        <input type="tel" class="form-input" id="fb-phone" placeholder="<!-- content.formPhone -->Ваш телефон<!-- /content.formPhone -->" required>
       </div>
       <div class="form-group">
-        <textarea class="form-input form-input--textarea" id="fb-message" placeholder="Ваш отзыв..." rows="4" required></textarea>
+        <textarea class="form-input form-input--textarea" id="fb-message" placeholder="<!-- content.formMessage -->Ваш отзыв...<!-- /content.formMessage -->" rows="4" required></textarea>
       </div>
       <div class="form-group form-group--rating">
-        <span class="form-label">Ваша оценка:</span>
+        <span class="form-label"><!-- content.formRating -->Ваша оценка:<!-- /content.formRating --></span>
         <div class="rating" id="ratingStars">
           <i class="fas fa-star rating__star" data-value="1"></i>
           <i class="fas fa-star rating__star" data-value="2"></i>
@@ -285,15 +285,15 @@
       </div>
       <label class="form-checkbox">
         <input type="checkbox" required>
-        <span>Я согласен на <a href="privacy.html" target="_blank">обработку персональных данных</a></span>
+        <span><!-- content.formConsent -->Я согласен на <!-- /content.formConsent --><a href="privacy.html" target="_blank"><!-- content.formConsentLink -->обработку персональных данных<!-- /content.formConsentLink --></a></span>
       </label>
       <button type="submit" class="btn btn--primary btn--full">
-        <i class="fas fa-paper-plane"></i> Отправить отзыв владельцу
+        <i class="fas fa-paper-plane"></i> <!-- content.btnSendFeedback -->Отправить отзыв владельцу<!-- /content.btnSendFeedback -->
       </button>
     </form>
     <div class="feedback-success" id="feedbackSuccess">
       <i class="fas fa-check-circle feedback-success__icon"></i>
-      <p class="feedback-success__text">Спасибо! Ваш отзыв отправлен.</p>
+      <p class="feedback-success__text"><!-- content.successFeedback -->Спасибо! Ваш отзыв отправлен.<!-- /content.successFeedback --></p>
     </div>
   </div>
 </div>
@@ -302,32 +302,32 @@
   <div class="modal__overlay" onclick="closeModal('booking')"></div>
   <div class="modal__card">
     <button class="modal__close" onclick="closeModal('booking')">&times;</button>
-    <h3 class="modal__title">🍽 Забронировать банкет</h3>
+    <h3 class="modal__title"><!-- content.modalBookingTitle -->🍽 Забронировать банкет<!-- /content.modalBookingTitle --></h3>
     <form class="feedback-form" id="bookingForm">
       <div class="form-group">
-        <input type="text" class="form-input" placeholder="Ваше имя" required>
+        <input type="text" class="form-input" placeholder="<!-- content.formName -->Ваше имя<!-- /content.formName -->" required>
       </div>
       <div class="form-group">
-        <input type="tel" class="form-input" placeholder="Ваш телефон" required>
+        <input type="tel" class="form-input" placeholder="<!-- content.formPhone -->Ваш телефон<!-- /content.formPhone -->" required>
       </div>
       <div class="form-group form-group--row">
-        <input type="date" class="form-input form-input--date" placeholder="Дата" required>
-        <input type="number" class="form-input form-input--guests" placeholder="Гостей" min="1" required>
+        <input type="date" class="form-input form-input--date" placeholder="<!-- content.formDate -->Дата<!-- /content.formDate -->" required>
+        <input type="number" class="form-input form-input--guests" placeholder="<!-- content.formGuests -->Гостей<!-- /content.formGuests -->" min="1" required>
       </div>
       <div class="form-group">
-        <textarea class="form-input form-input--textarea" placeholder="Пожелания..." rows="3"></textarea>
+        <textarea class="form-input form-input--textarea" placeholder="<!-- content.formNotes -->Пожелания...<!-- /content.formNotes -->" rows="3"></textarea>
       </div>
       <label class="form-checkbox">
         <input type="checkbox" required>
-        <span>Я согласен на <a href="privacy.html" target="_blank">обработку персональных данных</a></span>
+        <span><!-- content.formConsent -->Я согласен на <!-- /content.formConsent --><a href="privacy.html" target="_blank"><!-- content.formConsentLink -->обработку персональных данных<!-- /content.formConsentLink --></a></span>
       </label>
       <button type="submit" class="btn btn--primary btn--full">
-        <i class="fas fa-paper-plane"></i> Отправить заявку
+        <i class="fas fa-paper-plane"></i> <!-- content.btnSendBooking -->Отправить заявку<!-- /content.btnSendBooking -->
       </button>
     </form>
     <div class="feedback-success" id="bookingSuccess">
       <i class="fas fa-check-circle feedback-success__icon"></i>
-      <p class="feedback-success__text">Спасибо! Мы свяжемся с вами в ближайшее время.</p>
+      <p class="feedback-success__text"><!-- content.successBooking -->Спасибо! Мы свяжемся с вами в ближайшее время.<!-- /content.successBooking --></p>
     </div>
   </div>
 </div>
@@ -336,31 +336,31 @@
   <div class="modal__overlay" onclick="closeModal('franchise')"></div>
   <div class="modal__card">
     <button class="modal__close" onclick="closeModal('franchise')">&times;</button>
-    <h3 class="modal__title">📊 Открыть франшизу</h3>
+    <h3 class="modal__title"><!-- content.modalFranchiseTitle -->📊 Открыть франшизу<!-- /content.modalFranchiseTitle --></h3>
     <form class="feedback-form" id="franchiseForm">
       <div class="form-group">
-        <input type="text" class="form-input" placeholder="Ваше имя" required>
+        <input type="text" class="form-input" placeholder="<!-- content.formName -->Ваше имя<!-- /content.formName -->" required>
       </div>
       <div class="form-group">
-        <input type="tel" class="form-input" placeholder="Ваш телефон" required>
+        <input type="tel" class="form-input" placeholder="<!-- content.formPhone -->Ваш телефон<!-- /content.formPhone -->" required>
       </div>
       <div class="form-group">
-        <input type="email" class="form-input" placeholder="Ваш email" required>
+        <input type="email" class="form-input" placeholder="<!-- content.formEmail -->Ваш email<!-- /content.formEmail -->" required>
       </div>
       <div class="form-group">
-        <input type="text" class="form-input" placeholder="Город" required>
+        <input type="text" class="form-input" placeholder="<!-- content.formCity -->Город<!-- /content.formCity -->" required>
       </div>
       <label class="form-checkbox">
         <input type="checkbox" required>
-        <span>Я согласен на <a href="privacy.html" target="_blank">обработку персональных данных</a></span>
+        <span><!-- content.formConsent -->Я согласен на <!-- /content.formConsent --><a href="privacy.html" target="_blank"><!-- content.formConsentLink -->обработку персональных данных<!-- /content.formConsentLink --></a></span>
       </label>
       <button type="submit" class="btn btn--primary btn--full">
-        <i class="fas fa-paper-plane"></i> Отправить заявку
+        <i class="fas fa-paper-plane"></i> <!-- content.btnSendFranchise -->Отправить заявку<!-- /content.btnSendFranchise -->
       </button>
     </form>
     <div class="feedback-success" id="franchiseSuccess">
       <i class="fas fa-check-circle feedback-success__icon"></i>
-      <p class="feedback-success__text">Спасибо! Презентация придет на ваш email.</p>
+      <p class="feedback-success__text"><!-- content.successFranchise -->Спасибо! Презентация придет на ваш email.<!-- /content.successFranchise --></p>
     </div>
   </div>
 </div>
