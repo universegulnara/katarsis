@@ -80,6 +80,40 @@ function buildFontVars(cfg) {
   return ':root{--font:' + body + ';--font-heading:' + heading + '}';
 }
 
+function buildSchema(cfg) {
+  const daysMap = {
+    'Пн-Вс': 'Mo-Su', 'Пн-Пт': 'Mo-Fr', 'Сб-Вс': 'Sa-Su',
+    'Пн': 'Mo', 'Вт': 'Tu', 'Ср': 'We', 'Чт': 'Th', 'Пт': 'Fr', 'Сб': 'Sa', 'Вс': 'Su'
+  };
+  let openingHours = '';
+  if (cfg.contacts?.workingHours) {
+    let h = cfg.contacts.workingHours;
+    for (const [ru, en] of Object.entries(daysMap)) {
+      h = h.replace(ru, en);
+    }
+    openingHours = h.replace(/ — /g, ' ').replace(/—/g, '-');
+  }
+
+  const schema = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: 'Катарсис',
+    description: cfg.seo?.description || 'Премиальный караоке-бар',
+    url: 'https://universegulnara.github.io/katarsis/',
+    telephone: cfg.contacts?.phone || '',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Казань',
+      streetAddress: cfg.contacts?.address || '',
+      addressCountry: 'RU'
+    },
+    image: cfg.seo?.ogImage || 'https://universegulnara.github.io/katarsis/assets/og-image.png'
+  };
+  if (openingHours) schema.openingHours = openingHours;
+
+  return JSON.stringify(schema, null, 2);
+}
+
 async function main() {
   if (!GAS_URL) {
     console.error('❌ GAS_URL not set');
@@ -136,6 +170,9 @@ async function main() {
   const fontVars = buildFontVars(cfg);
   const configStyles = buildConfigStyles(cfg);
   html = replaceMarker(html, 'dynamic-styles', [fontVars, configStyles, sectionStyles].filter(Boolean).join(' '));
+
+  const schemaJson = buildSchema(cfg);
+  html = replaceMarker(html, 'seo.schema', schemaJson);
 
   fs.writeFileSync(HTML_FILE, html, 'utf-8');
   console.log('✅ Saved to ' + HTML_FILE);
