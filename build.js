@@ -164,8 +164,6 @@ async function processFile(file, cfg) {
     'content.footerLinkHome', 'content.footerLinkEvents', 'content.footerLinkActivities', 'content.footerLinkFranchise',
     'content.footerYear',
     'content.modalFeedbackTitle', 'content.modalBookingTitle', 'content.modalFranchiseTitle',
-    'content.formName', 'content.formPhone', 'content.formMessage', 'content.formDate',
-    'content.formGuests', 'content.formNotes', 'content.formEmail', 'content.formCity',
     'content.formRating', 'content.formConsent', 'content.formConsentLink',
     'content.formSending', 'content.formError',
     'content.successFeedback', 'content.successBooking', 'content.successFranchise',
