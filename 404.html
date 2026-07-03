@@ -16,32 +16,26 @@
       color: #f0eeff;
       min-height: 100vh;
       padding: 40px 24px;
-      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .hero-img {
-      position: fixed;
-      left: 50%;
-      top: <!-- content.404top -->0<!-- /content.404top -->%;
-      width: <!-- content.404imgSize -->70<!-- /content.404imgSize -->%;
+      display: block;
+      margin: 0 auto 32px;
+      width: <!-- content.404imgSize -->50<!-- /content.404imgSize -->%;
       max-width: 240px;
-      transform: translateX(-50%);
-      z-index: 0;
       animation: float 3s ease-in-out infinite;
       pointer-events: none;
     }
     @keyframes float {
-      0%, 100% { transform: translateX(-50%) translateY(0); }
-      50% { transform: translateX(-50%) translateY(-16px); }
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-16px); }
     }
     .container {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
       max-width: 480px;
       width: 90%;
       text-align: center;
-      z-index: 1;
     }
     h1 {
       font-size: 80px;
