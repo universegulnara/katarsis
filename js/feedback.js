@@ -63,15 +63,22 @@ async function submitFeedback(formId, successId, data) {
   }
 }
 
+function getHoneypot(form) {
+  const hp = form.querySelector('input[name="honeypot"]');
+  return hp ? hp.value : '';
+}
+
 document.getElementById('feedbackForm').addEventListener('submit', async (e) => {
   e.preventDefault();
+  const form = e.target;
   const data = {
     type: 'feedback',
     name: document.getElementById('fb-name').value,
     phone: document.getElementById('fb-phone').value,
     message: document.getElementById('fb-message').value,
     rating: getRatingValue(),
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    honeypot: getHoneypot(form)
   };
   await submitFeedback('feedbackForm', 'feedbackSuccess', data);
 });
@@ -87,7 +94,8 @@ document.getElementById('bookingForm').addEventListener('submit', async (e) => {
     date: inputs[2].value,
     guests: inputs[3].value,
     notes: inputs[4].value,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    honeypot: getHoneypot(form)
   };
   await submitFeedback('bookingForm', 'bookingSuccess', data);
 });
@@ -102,7 +110,8 @@ document.getElementById('franchiseForm').addEventListener('submit', async (e) =>
     phone: inputs[1].value,
     email: inputs[2].value,
     city: inputs[3].value,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    honeypot: getHoneypot(form)
   };
   await submitFeedback('franchiseForm', 'franchiseSuccess', data);
 });

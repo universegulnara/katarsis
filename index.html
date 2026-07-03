@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- site.canonical --><link rel="canonical" href="https://universegulnara.github.io/katarsis/"><!-- /site.canonical -->
   <meta name="robots" content="index, follow">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://www.googletagmanager.com https://mc.yandex.ru; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https://mc.yandex.ru; connect-src 'self' https://script.google.com; frame-src 'none'">
   <!-- seo.title --><title>Франшиза Катарсис — премиальный караоке-бар в вашем городе</title><!-- /seo.title -->
   <meta id="seo-desc" name="description" content="Атмосферный караоке-бар с неоновым светом и стеклянным интерьером">
   <!-- seo.keywords --><meta id="seo-keys" name="keywords" content="франшиза караоке-бара, открыть караоке-бар, караоке Казань, премиальный караоке-бар"><!-- /seo.keywords -->
@@ -108,13 +109,13 @@
       <span class="hero__title-line hero__title-line--sub"><!-- tagline_part2 -->Настоящие люди<!-- /tagline_part2 --></span>
     </h1>
     <div class="hero__buttons" data-aos>
-      <button class="btn btn--glass" onclick="openModal('feedback')" data-section="feedback">
+      <button class="btn btn--glass" onclick="openModal('feedback')" data-section="feedback" data-btn="feedback">
         <i class="fas fa-star"></i> <!-- content.btnFeedback -->Оставить отзыв владельцу<!-- /content.btnFeedback -->
       </button>
-      <button class="btn btn--glass" onclick="openModal('booking')" data-section="booking">
+      <button class="btn btn--glass" onclick="openModal('booking')" data-section="booking" data-btn="booking">
         <i class="fas fa-utensils"></i> <!-- content.btnBooking -->Забронировать банкет<!-- /content.btnBooking -->
       </button>
-      <button class="btn btn--glass" onclick="openModal('franchise')" data-section="franchise">
+      <button class="btn btn--glass" onclick="openModal('franchise')" data-section="franchise" data-btn="franchise">
         <i class="fas fa-chart-line"></i> <!-- content.btnFranchise -->Открыть франшизу<!-- /content.btnFranchise -->
       </button>
     </div>
@@ -279,6 +280,7 @@
     <button class="modal__close" onclick="closeModal('feedback')">&times;</button>
     <h3 class="modal__title"><!-- content.modalFeedbackTitle -->✉️ Оставить отзыв владельцу<!-- /content.modalFeedbackTitle --></h3>
     <form class="feedback-form" id="feedbackForm">
+      <input type="text" name="honeypot" style="position:absolute;left:-9999px;top:-9999px" tabindex="-1" autocomplete="off">
       <div class="form-group">
         <input type="text" class="form-input" id="fb-name" placeholder="Ваше имя" required>
       </div>
@@ -319,6 +321,7 @@
     <button class="modal__close" onclick="closeModal('booking')">&times;</button>
     <h3 class="modal__title"><!-- content.modalBookingTitle -->🍽 Забронировать банкет<!-- /content.modalBookingTitle --></h3>
     <form class="feedback-form" id="bookingForm">
+      <input type="text" name="honeypot" style="position:absolute;left:-9999px;top:-9999px" tabindex="-1" autocomplete="off">
       <div class="form-group">
         <input type="text" class="form-input" placeholder="Ваше имя" required>
       </div>
@@ -353,6 +356,7 @@
     <button class="modal__close" onclick="closeModal('franchise')">&times;</button>
     <h3 class="modal__title"><!-- content.modalFranchiseTitle -->📊 Открыть франшизу<!-- /content.modalFranchiseTitle --></h3>
     <form class="feedback-form" id="franchiseForm">
+      <input type="text" name="honeypot" style="position:absolute;left:-9999px;top:-9999px" tabindex="-1" autocomplete="off">
       <div class="form-group">
         <input type="text" class="form-input" placeholder="Ваше имя" required>
       </div>

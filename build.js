@@ -1,7 +1,17 @@
 const fs = require('fs');
 
 const GAS_URL = process.env.GAS_URL || '';
-const FILES = ['index.html', '404.html', 'update.html', 'privacy.html'];
+const FILES = [
+  'index.html', '404.html', 'update.html',
+  'privacy/index.html',
+  'about/index.html', 'cocktail-card/index.html', 'private-events/index.html',
+  'booking/index.html',
+  'locations/index.html', 'locations/kazan/index.html',
+  'franchise/index.html', 'franchise/format/index.html', 'franchise/economics/index.html',
+  'franchise/support/index.html', 'franchise/steps/index.html',
+  'franchise/faq/index.html', 'franchise/apply/index.html',
+  'merch/index.html', 'contacts/index.html', 'consent/index.html'
+];
 
 function escReg(s) {
   return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -136,7 +146,18 @@ function buildConfigJson(cfg) {
     formSending: cfg.content?.formSending || '',
     formError: cfg.content?.formError || ''
   };
-  return JSON.stringify(o);
+  return JSON.stringify(o).replace(/<\//g, '<\\/');
+}
+
+function buildButtonStyles(cfg) {
+  const buttons = cfg.buttons || {};
+  const rules = [];
+  for (const [name, visible] of Object.entries(buttons)) {
+    if (visible === false || visible === 'FALSE') {
+      rules.push('[data-btn="' + name + '"]{display:none!important}');
+    }
+  }
+  return rules.join(' ');
 }
 
 async function processFile(file, cfg) {
@@ -168,7 +189,25 @@ async function processFile(file, cfg) {
     'content.formSending', 'content.formError',
     'content.successFeedback', 'content.successBooking', 'content.successFranchise',
     'content.logoAlt',
-    'content.404top', 'content.404title', 'content.404text', 'content.404sub', 'content.404btn'
+    'content.404top', 'content.404title', 'content.404text', 'content.404sub', 'content.404btn',
+    'content.404imgSize', 'content.404imgOpacity', 'content.404heroImg',
+    'content.pageAboutHero', 'content.pageAboutHeroText', 'content.pageAboutConcept', 'content.pageAboutConceptText',
+    'content.pageAboutAtmo', 'content.pageAboutAtmoText',
+    'content.pageCocktailHero', 'content.pageCocktailHeroText', 'content.pageCocktailSig', 'content.pageCocktailSigText',
+    'content.pageEventsHero', 'content.pageEventsHeroText', 'content.pageEventsFormats', 'content.pageEventsFormatsText',
+    'content.pageBookingHero', 'content.pageBookingHeroText',
+    'content.pageLocationsHero', 'content.pageLocationsHeroText', 'content.pageLocationsKazan', 'content.pageLocationsKazanText',
+    'content.pageKazanHero', 'content.pageKazanHeroText', 'content.pageKazanInfo', 'content.pageKazanInfoText',
+    'content.pageFranchiseHero', 'content.pageFranchiseHeroText', 'content.pageFranchiseWhy', 'content.pageFranchiseWhyText',
+    'content.pageFormatHero', 'content.pageFormatHeroText', 'content.pageFormatDetails', 'content.pageFormatDetailsText',
+    'content.pageEconHero', 'content.pageEconHeroText', 'content.pageEconDetails', 'content.pageEconDetailsText',
+    'content.pageSupportHero', 'content.pageSupportHeroText', 'content.pageSupportItems', 'content.pageSupportItemsText',
+    'content.pageStepsHero', 'content.pageStepsHeroText', 'content.pageStepsTimeline', 'content.pageStepsTimelineText',
+    'content.pageFaqHero', 'content.pageFaqHeroText', 'content.pageFaqList', 'content.pageFaqListText',
+    'content.pageApplyHero', 'content.pageApplyHeroText',
+    'content.pageMerchHero', 'content.pageMerchHeroText',
+    'content.pageContactsHero', 'content.pageContactsHeroText', 'content.pageContactsInfo', 'content.pageContactsInfoText',
+    'content.pageConsentHero', 'content.pageConsentHeroText'
   ];
 
   const plainKeys = [
@@ -208,11 +247,17 @@ async function processFile(file, cfg) {
     html = replaceMarkerAttr(html, 'content.faviconUrl', faviconUrl, 'href');
   }
 
+  const heroImg = cfg.content?.['404heroImg'];
+  if (heroImg != null && heroImg !== '') {
+    html = replaceMarkerAttr(html, 'content.404heroImg', heroImg, 'src');
+  }
+
   const sectionStyles = buildSectionStyles(cfg);
   const fontVars = buildFontVars(cfg);
   const configStyles = buildConfigStyles(cfg);
   const designStyles = buildDesignStyles(cfg);
-  const allStyles = [fontVars, configStyles, sectionStyles, designStyles].filter(Boolean).join(' ');
+  const buttonStyles = buildButtonStyles(cfg);
+  const allStyles = [fontVars, configStyles, sectionStyles, designStyles, buttonStyles].filter(Boolean).join(' ');
   html = replaceMarker(html, 'dynamic-styles', allStyles);
 
   const schemaJson = buildSchema(cfg);

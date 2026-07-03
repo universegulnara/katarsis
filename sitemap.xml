@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://universegulnara.github.io/katarsis/</loc>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://universegulnara.github.io/katarsis/privacy.html</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.3</priority>
-  </url>
+  <url><loc>https://universegulnara.github.io/katarsis/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/about/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/cocktail-card/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/private-events/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/booking/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/locations/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/locations/kazan/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/franchise/</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/franchise/format/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/franchise/economics/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/franchise/support/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/franchise/steps/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/franchise/faq/</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/franchise/apply/</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/merch/</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/contacts/</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/privacy/</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
+  <url><loc>https://universegulnara.github.io/katarsis/consent/</loc><changefreq>monthly</changefreq><priority>0.3</priority></url>
 </urlset>

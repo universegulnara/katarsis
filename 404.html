@@ -6,7 +6,7 @@
   <!-- seo.title --><title>404 — Страница не найдена | Катарсис</title><!-- /seo.title -->
   <meta name="robots" content="noindex, follow">
   <!-- site.canonical --><link rel="canonical" href="https://universegulnara.github.io/katarsis/404.html"><!-- /site.canonical -->
-  <link rel="icon" type="image/png" href="<!-- content.faviconUrl -->assets/favicon.png<!-- /content.faviconUrl -->">
+  <link rel="icon" type="image/png" href="<!-- content.faviconUrl -->/katarsis/assets/favicon.png<!-- /content.faviconUrl -->">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,27 +16,32 @@
       color: #f0eeff;
       min-height: 100vh;
       padding: 40px 24px;
+      overflow: hidden;
+    }
+    .hero-img {
+      position: fixed;
+      left: 50%;
+      top: <!-- content.404top -->10<!-- /content.404top -->%;
+      width: <!-- content.404imgSize -->50<!-- /content.404imgSize -->%;
+      max-width: 240px;
+      transform: translateX(-50%);
+      z-index: 0;
+      animation: float 3s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(-16px); }
     }
     .container {
       position: absolute;
       left: 50%;
-      top: <!-- content.404top -->50<!-- /content.404top -->%;
+      top: 50%;
       transform: translate(-50%, -50%);
       max-width: 480px;
       width: 90%;
       text-align: center;
-    }
-    .hero-img {
-      display: block;
-      margin: 0 auto 24px;
-      max-width: 200px;
-      width: 60%;
-      opacity: 0.4;
-      animation: float 3s ease-in-out infinite;
-    }
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-16px); }
+      z-index: 1;
     }
     h1 {
       font-size: 80px;
@@ -78,11 +83,11 @@
 </head>
 <body>
   <div class="container">
-    <img src="assets/hero-image.png" alt="" class="hero-img">
+    <img src="<!-- content.404heroImg -->https://universegulnara.github.io/katarsis/assets/hero-image.png<!-- /content.404heroImg -->" alt="" class="hero-img" style="opacity: <!-- content.404imgOpacity -->1<!-- /content.404imgOpacity -->;">
     <h1><!-- content.404title -->404<!-- /content.404title --></h1>
     <p><!-- content.404text -->Такой страницы нет<!-- /content.404text --></p>
     <p class="sub"><!-- content.404sub -->Возможно, она была перемещена или удалена<!-- /content.404sub --></p>
-    <a href="index.html" class="btn"><i class="fas fa-arrow-left"></i> <!-- content.404btn -->На главную<!-- /content.404btn --></a>
+    <a href="/katarsis/" class="btn"><i class="fas fa-arrow-left"></i> <!-- content.404btn -->На главную<!-- /content.404btn --></a>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
 </body>
