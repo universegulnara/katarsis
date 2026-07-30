@@ -1,0 +1,178 @@
+/* ═══════════════════════════════════════════
+   WOW-EFFECTS для Катарсис
+   Добавить в index.html: <link rel="stylesheet" href="css/wow.css">
+   ═══════════════════════════════════════════ */
+
+/* 1. AURORA OVERLAY — анимированный градиент на hero */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: 
+    radial-gradient(ellipse 80% 50% at 20% 40%, rgba(201,144,255,0.15) 0%, transparent 50%),
+    radial-gradient(ellipse 60% 40% at 80% 60%, rgba(83,109,254,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse 50% 60% at 50% 20%, rgba(255,110,199,0.08) 0%, transparent 50%);
+  animation: auroraShift 12s ease-in-out infinite alternate;
+  z-index: 1;
+  pointer-events: none;
+}
+
+@keyframes auroraShift {
+  0% {
+    background-position: 0% 0%, 100% 100%, 50% 0%;
+    opacity: 0.6;
+  }
+  50% {
+    background-position: 30% 20%, 70% 80%, 20% 40%;
+    opacity: 0.9;
+  }
+  100% {
+    background-position: 60% 40%, 40% 20%, 80% 60%;
+    opacity: 0.7;
+  }
+}
+
+/* 2. SHIMMER TEXT — градиентный блеск на заголовке */
+.hero__title-line--main {
+  position: relative;
+  background: linear-gradient(
+    90deg,
+    #fffdf1 0%,
+    var(--accent-purple) 25%,
+    #fffdf1 50%,
+    var(--accent-pink) 75%,
+    #fffdf1 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 4s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* 3. CURSOR GLOW — свечение за курсором */
+.cursor-glow {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,144,255,0.08) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.cursor-glow.active {
+  opacity: 1;
+}
+
+/* 4. STAGGERED CARD REVEALS — каскадное появление карточек */
+[data-stagger] {
+  opacity: 0;
+  transform: translateY(30px) scale(0.97);
+  transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+[data-stagger].stagger-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+/* 5. MAGNETIC BUTTON HOVER — магнитный эффект */
+.btn--glass, .btn--primary {
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.3s ease;
+}
+
+/* 6. GLOW BORDER на секциях при скролле */
+.section {
+  position: relative;
+}
+
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent-purple), transparent);
+  transition: width 0.8s ease;
+}
+
+.section.section-visible::before {
+  width: 60%;
+}
+
+/* 7. FLOATING BADGE — плавающий бейдж */
+.hero__badge {
+  animation: floatBadge 3s ease-in-out infinite;
+}
+
+@keyframes floatBadge {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* 8. CARD GLOW ON HOVER — свечение карточек при наведении */
+.activity-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue), var(--accent-pink));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.activity-card:hover::after {
+  opacity: 0.15;
+}
+
+/* 9. SCROLL PROGRESS — полоска прогресса скролла */
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue), var(--accent-pink));
+  z-index: 100001;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 10px var(--accent-purple);
+}
+
+/* 10. NAVBAR LINK GLOW — подсветка активной ссылки */
+.navbar__link:hover {
+  text-shadow: 0 0 20px rgba(201, 144, 255, 0.5);
+}
+
+/* 11. EVENT CARD HOVER GLOW */
+.event-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 30px;
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.event-card:hover::before {
+  opacity: 0.2;
+}
+
+/* 12. MOBILE — отключаем тяжёлые эффекты */
+@media (max-width: 768px) {
+  .cursor-glow { display: none; }
+  .hero::after { animation-duration: 20s; }
+  .hero__title-line--main { animation-duration: 6s; }
+}
